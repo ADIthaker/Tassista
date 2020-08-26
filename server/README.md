@@ -1,1 +1,0 @@
-# Unicode Learning Period Project
