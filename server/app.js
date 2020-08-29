@@ -27,7 +27,7 @@ app.use(
 app.use(cookieParser('cats'));
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passportLocalConfig')(passport);
+require('./config/passportConfig');
 
 app.use(authRoutes);
 
@@ -38,7 +38,7 @@ mongoose
     })
     .then((result) => {
         app.listen(process.env.PORT, () => {
-            console.log(`working on port ${process.env.PORT}`);
+            console.log(`\nworking on port ${process.env.PORT}`);
         });
     })
     .catch((err) => console.log(err));

@@ -2,19 +2,23 @@
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User = require('../models/user');
-require('../config/passportLocalConfig')(passport);
+// require('../config/passportConfig')(passport);
 //= ============Imports_END=============//
 
 //= ============Register a user=============//
 exports.userRegister = (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
     User.findOne({ email: email }, async (err, doc) => {
         if (err) throw err;
         if (doc) return res.send('User already exists');
         if (!doc) {
             console.log(email, password);
             const hashedPwd = await bcrypt.hash(password, 10);
-            const user = new User({ email: email, password: hashedPwd });
+            const user = new User({
+                email: email,
+                password: hashedPwd,
+                username: username,
+            });
             await user.save();
             console.log('USER IS CREATED!!');
             return res.json({ email: email, password: password });
@@ -36,12 +40,16 @@ exports.userLogin = (req, res) => {
                     res.json({ message: error });
                 }
                 console.log(req.user);
-                return res.json({ message: 'Authenticated' });
+                return res.redirect('/profile');
             });
         }
     })(req, res);
 };
-
+exports.googleLogin = (req, res) => {
+    return passport.authenticate('google', {
+        scope: ['profile'],
+    });
+};
 exports.userLogout = (req, res) => {
     console.log(req.session);
     req.logOut();

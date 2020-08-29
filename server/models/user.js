@@ -7,10 +7,9 @@ const user = new Schema({
         type: String,
         required: true,
     },
-    password: {
-        type: String,
-        required: true,
-    },
+    username: String,
+    password: String,
+    googleId: String,
 });
 
 module.exports = mongoose.model('User', user);
