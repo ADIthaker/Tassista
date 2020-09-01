@@ -1,11 +1,52 @@
-import React from 'react';
+import React,{useReducer} from 'react';
 import {Grid, TextField, Box, Button, Avatar} from '@material-ui/core';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
 
+const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+const passwordRegex = /^[A-Za-z]\w{7,14}$/;
+const initialState = {
+    emailValue:'',
+    passwordValue:'',
+    validation:{
+        emailValid:true,
+        passwordValid:true,
+    }
+    
+};
+const reducer = (state, action)=>{
+    switch(action.type) {
+        case 'emailChange':
+            return {... state, emailValue : action.payload };
+        case 'passwordChange':
+            return {... state, passwordValue : action.payload };
+        case 'validation':
+            return {... state, validation : action.settings};
+    }
+    
+}
 
 const Login = () => {
+    const [state, dispatch] = useReducer(reducer, initialState);
     const classes = useStyles();
+    const fieldChangeHandler = (name,event) =>{
+        let emailTest = state.validation.emailValid;
+        let passwordTest = state.validation.passwordValid;
+        if(name==='email') {
+             emailTest = emailRegex.test(event.target.value);
+        } else if(name==='password'){
+             passwordTest = passwordRegex.test(event.target.value);
+        } 
+        dispatch({type:'validation',
+            settings:{
+                emailValid:emailTest,
+                passwordValid:passwordTest,
+            }
+        })
+        const typeToPass = name + 'Change';
+        dispatch({type: typeToPass ,payload:event.target.value}); 
+    }
+
     return(
         <Box className={classes.main}>
             <Grid container >
@@ -33,13 +74,20 @@ const Login = () => {
                                         name = "email"
                                         fullWidth
                                         className = {classes.root}
+                                        onChange = {(e)=>fieldChangeHandler('email',e)}
+                                        error = {state.validation.emailValid===false ? true:false}
+                                        helperText = {state.validation.emailValid===false ? "Invalid Email" :'' }
                                         />
                                     <TextField 
                                         variant = "outlined"
                                         label = "Password"
                                         name = "password"
+                                        type = 'password'
                                         fullWidth
                                         className = {classes.root}
+                                        onChange = {(e)=>fieldChangeHandler('password',e)}
+                                        error = {state.validation.passwordValid===false ? true:false}
+                                        helperText = {state.validation.passwordValid===false ? "Invalid Password" : ''}
                                         />
                                     <Button className={classes.submitButton} width={1} >Submit</Button>
                                 </form>
