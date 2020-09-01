@@ -8,7 +8,7 @@ const User = require('../models/user');
 // Local Strat
 passport.use(
     new LocalStrategy((username, password, done) => {
-        // console.log(username,password);
+        // console.log(username, password);
         User.findOne({ email: username }, async (err, user) => {
             if (err) {
                 throw err;

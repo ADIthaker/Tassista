@@ -60,7 +60,25 @@ const SignUp = () => {
     }
     console.log(state);
 
+    const formSubmitHandler = (event)=>{
+        event.preventDefault();
+        fetch('http://localhost:4000/register',
+        {method:'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            // 'Access-Control-Allow-Origin': 'http://localhost:3000'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        body:JSON.stringify({
+            email:state.emailValue,
+            password:state.passwordValue,
+            username:state.usernameValue,
+        })})
+        .then(res=>res.json())
+        .then(r=>console.log(r,'submit'));
 
+    }
 
     return(
         <Box className={classes.main} width={1}>
@@ -82,7 +100,7 @@ const SignUp = () => {
                         <Grid item className={classes.inputFields}>
                             <h3>Sign Up with E-Mail</h3>
                             <Box width={1}>
-                                <form autoComplete="off" noValidate>
+                                <form autoComplete="off" noValidate onSubmit={formSubmitHandler}>
                                     <TextField 
                                         variant = "outlined"
                                         label="Full Name"
@@ -115,7 +133,7 @@ const SignUp = () => {
                                         error = {state.validation.passwordValid===false ? true:false}
                                         helperText = {state.validation.passwordValid===false ? "Invalid Password" : ''}
                                         />
-                                    <Button className={classes.submitButton} width={1} >Submit</Button>
+                                    <Button className={classes.submitButton} width={1} type="submit">Submit</Button>
                                 </form>
                             </Box>
                         </Grid>

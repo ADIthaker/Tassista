@@ -39,8 +39,8 @@ exports.userLogin = (req, res) => {
                 if (error) {
                     res.json({ message: error });
                 }
-                console.log(req.user);
-                return res.redirect('/profile');
+                console.log(req.session, req.user);
+                return res.json({ message: 'gottem' });
             });
         }
     })(req, res);
@@ -51,7 +51,6 @@ exports.googleLogin = (req, res) => {
     });
 };
 exports.userLogout = (req, res) => {
-    console.log(req.session);
     req.logOut();
     console.log(req.session);
     return res.json({ message: 'logged out' });
