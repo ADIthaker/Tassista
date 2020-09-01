@@ -11,9 +11,7 @@ const authRoutes = require('./routes/auth');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({
-        origin: 'http://localhost:3000',
-}));
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(
     session({
         secret: 'cats',
@@ -22,9 +20,11 @@ app.use(
     }),
 );
 app.use(cookieParser('cats'));
+require('./config/passportConfig')(passport);
+require('./config/passportOauthConfig')(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passportConfig');
 
 app.use(authRoutes);
 

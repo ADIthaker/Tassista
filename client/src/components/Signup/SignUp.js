@@ -3,6 +3,7 @@ import {Grid, TextField, Box, Button, Avatar, FormHelperText} from '@material-ui
 import {makeStyles} from '@material-ui/core/styles';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './SignUpStyles';
+import axios from 'axios';
 
 
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -62,20 +63,12 @@ const SignUp = () => {
 
     const formSubmitHandler = (event)=>{
         event.preventDefault();
-        fetch('http://localhost:4000/register',
-        {method:'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Access-Control-Allow-Origin': 'http://localhost:3000'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        body:JSON.stringify({
+        axios.post('http://localhost:4000/register',
+        {
             email:state.emailValue,
             password:state.passwordValue,
             username:state.usernameValue,
-        })})
-        .then(res=>res.json())
+        })
         .then(r=>console.log(r,'submit'));
 
     }

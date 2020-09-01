@@ -55,3 +55,7 @@ exports.userLogout = (req, res) => {
     console.log(req.session);
     return res.json({ message: 'logged out' });
 };
+exports.getUser = (req, res) => {
+    console.log(req.session);
+    return res.json({ user: req.user });
+};

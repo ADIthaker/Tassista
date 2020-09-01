@@ -2,6 +2,8 @@ import React,{useReducer} from 'react';
 import {Grid, TextField, Box, Button, Avatar} from '@material-ui/core';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
+import {Redirect} from 'react-router-dom';
+import axios from 'axios';
 
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const passwordRegex = /^[A-Za-z]\w{7,14}$/;
@@ -46,23 +48,38 @@ const Login = () => {
         const typeToPass = name + 'Change';
         dispatch({type: typeToPass ,payload:event.target.value}); 
     }
-
+    const redirectToProfile = (res)=>{
+            return fetch('http://localhost:4000/profile',{
+                method: 'GET',
+                withCredentials: true,
+                credentials: 'include',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+            }})
+            .then(j=>j.json())
+            .then(r=>console.log(r));
+            
+         
+    }
     const formSubmitHandler = (event)=>{
         event.preventDefault();
-        fetch('http://localhost:4000/login',
-        {method:'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Access-Control-Allow-Origin': 'http://localhost:3000'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        body:JSON.stringify({
-            username:state.emailValue,
-            password:state.passwordValue,
-        })})
-        .then(res=>res.json())
-        .then(r=>console.log(r,'submit'));
+        return fetch('http://localhost:4000/login',{
+            method: 'POST',
+            withCredentials: true,
+            credentials: 'include',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email:state.emailValue,
+                password:state.passwordValue,
+            })
+        }   
+    ) 
+    .then(r=>r.json())
+    .then(res=>redirectToProfile(res))
 
     }
 

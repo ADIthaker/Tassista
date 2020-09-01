@@ -17,6 +17,7 @@ router.get(
         scope: ['profile', 'email'],
     }),
 );
+router.get('/profile', authController.getUser);
 router.get('/google/redirect', passport.authenticate('google'), (req, res) =>
     res.json({ message: 'Authenticated' }),
 );
