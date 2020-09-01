@@ -1,11 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import SignUp from './components/Signup/SignUp';
 
 function App() {
   return (
-  <h1>Hello</h1>
+  <SignUp />
     
   );
 }
