@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme=>({
     },
     gButton :{
         padding : '13px 15px',
-        border : '1px solid #eee',    
+        boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.07), 0 3px 5px 0 rgba(0, 0, 0, 0.07)', 
+        borderRadius :'12px',    
     },
     gImg:{
         marginRight : '1.5rem',
