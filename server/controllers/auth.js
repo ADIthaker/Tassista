@@ -1,6 +1,7 @@
 //= ============Imports_START=============//
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 // require('../config/passportConfig')(passport);
 //= ============Imports_END=============//
@@ -26,24 +27,31 @@ exports.userRegister = (req, res) => {
     });
 };
 
-exports.userLogin = (req, res) => {
+exports.userLogin = (req, res, next) => {
     passport.authenticate('local', (err, user) => {
-        // console.log(info);
-        if (err) {
-            return res.json({ message: err });
+        try {
+            // console.log(info);
+            if (err) {
+                return res.json({ message: err });
+            }
+            if (!user) {
+                res.json({ message: 'no such user' });
+            } else {
+                req.logIn(user, (error) => {
+                    if (error) {
+                        res.json({ message: error });
+                    }
+                    // console.log(req.session, req.user);
+                    // return res.json({ message: 'gottem' });
+                    const body = { _id: user._id, email: user.email };
+                    const token = jwt.sign({ user: body }, 'top_secret');
+                    return res.json({ token });
+                });
+            }
+        } catch (error) {
+            return next(error);
         }
-        if (!user) {
-            res.json({ message: 'no such user' });
-        } else {
-            req.logIn(user, (error) => {
-                if (error) {
-                    res.json({ message: error });
-                }
-                console.log(req.session, req.user);
-                return res.json({ message: 'gottem' });
-            });
-        }
-    })(req, res);
+    })(req, res, next);
 };
 exports.googleLogin = (req, res) => {
     return passport.authenticate('google', {

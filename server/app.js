@@ -11,7 +11,7 @@ const authRoutes = require('./routes/auth');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(
     session({
         secret: 'cats',
@@ -22,6 +22,7 @@ app.use(
 app.use(cookieParser('cats'));
 require('./config/passportConfig')(passport);
 require('./config/passportOauthConfig')(passport);
+require('./config/passportJwt')(passport);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,7 +34,7 @@ mongoose
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
-    .then((result) => {
+    .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`\nworking on port ${process.env.PORT}`);
         });
