@@ -10,6 +10,20 @@ const user = new Schema({
     username: String,
     password: String,
     googleId: String,
+    phoneNo: Number,
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true,
+        },
+        coordinates: {
+            type: [Number],
+            required: true,
+        },
+    },
+    address: String,
+    role: Number,
 });
 
 module.exports = mongoose.model('User', user);
