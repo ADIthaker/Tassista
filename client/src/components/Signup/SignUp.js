@@ -73,9 +73,9 @@ const SignUp = () => {
 
     }
 
-    const googleSignUpHandler = (event) => {
-        console.log(event);
-    }
+    // const googleSignUpHandler = (event) => {
+    //     axios.get('http://localhost:4000/google');
+    // }
     return(
         <Box className={classes.main} >
             <Grid container >
@@ -84,11 +84,13 @@ const SignUp = () => {
                     <Grid container direction="column" spacing={3}>
                         <Grid item ><h1>Sign Up</h1></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
-                            <Button className={classes.gButton} onClick={googleSignUpHandler} >
+                            <a href="http://localhost:4000/google">
+                            <Button className={classes.gButton} >
                                 <Avatar src={Glogo} 
                                 width="24px" height="24px" 
                                 className={classes.gImg} /> Continue with Google
-                            </Button>  
+                            </Button>
+                            </a>  
                         </Grid>
                         <Grid item  >
                             <Box width={1} className = {classes.line} display="flex">or</Box> 

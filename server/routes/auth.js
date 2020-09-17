@@ -19,7 +19,7 @@ router.get(
 );
 router.get('/profile', authController.getUser);
 router.get('/google/redirect', passport.authenticate('google'), (req, res) =>
-    res.json({ message: 'Authenticated' }),
+    res.redirect('http://localhost:3000/'),
 );
 
 module.exports = router;
