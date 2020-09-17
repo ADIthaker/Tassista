@@ -53,17 +53,11 @@ exports.userLogin = (req, res, next) => {
         }
     })(req, res, next);
 };
-exports.googleLogin = (req, res) => {
-    return passport.authenticate('google', {
-        scope: ['profile'],
-    });
-};
+
 exports.userLogout = (req, res) => {
     req.logOut();
-    console.log(req.session);
     return res.json({ message: 'logged out' });
 };
 exports.getUser = (req, res) => {
-    console.log(req.session);
     return res.json({ user: req.user });
 };
