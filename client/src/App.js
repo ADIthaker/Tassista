@@ -1,12 +1,15 @@
-import React , {Fragment} from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React , {Fragment, useState} from 'react';
 import Login from './components/Login/Login';
 import SignUp from './components/Signup/SignUp';
 import Home from './components/Home/Home';
-import {Switch, Route, Link} from 'react-router-dom';
+import {AppBar, Button, Toolbar,Typography, Box} from '@material-ui/core';
+import {Switch, Route, NavLink} from 'react-router-dom';
+import useStyles from './AppStyles'; 
 
-function App() {
+
+const App = () =>  {
+  const [intialAuth, setAuth] = useState(false);
+  const classes = useStyles();
   const logoutHandler = () => {
     return fetch('http://localhost:4000/logout',{
       method: 'GET',
@@ -22,11 +25,22 @@ function App() {
  
   return (
     <Fragment>
-      <Link to='/'>Uber</Link>
-      <Link to='/login'>Login</Link>
-      <Link to='/register'>Sign Up</Link>
-      
-      <button onClick={()=>logoutHandler()} >Logout</button>
+        <AppBar position = "static" className ={classes.appbar}>
+          <Toolbar>
+            <Typography className = {classes.root}>
+              <NavLink to='/' className = {classes.homelink}> Uber </NavLink> 
+            </Typography>
+           <NavLink to='/login' style={{ textDecoration: 'none' }} >
+             <Button className = {classes.login}>Login</Button>
+            </NavLink>
+            <Box mx={1}>
+              <NavLink to='/register' style={{ textDecoration: 'none' }} >
+              <Button className = {classes.login}  >Sign Up</Button>
+              </NavLink> 
+            </Box> 
+           
+          </Toolbar>
+        </AppBar>
       <Switch>
         <Route path="/login">
           <Login />

@@ -73,15 +73,18 @@ const SignUp = () => {
 
     }
 
+    const googleSignUpHandler = (event) => {
+        console.log(event);
+    }
     return(
-        <Box className={classes.main} width={1}>
+        <Box className={classes.main} >
             <Grid container >
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.form}>
                     <Grid container direction="column" spacing={3}>
                         <Grid item ><h1>Sign Up</h1></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
-                            <Button className={classes.gButton} >
+                            <Button className={classes.gButton} onClick={googleSignUpHandler} >
                                 <Avatar src={Glogo} 
                                 width="24px" height="24px" 
                                 className={classes.gImg} /> Continue with Google
