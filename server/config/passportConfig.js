@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const User = require('../models/user');
 
-module.exports =(passport)=>{
+module.exports = (passport) => {
     passport.use(
         new LocalStrategy(
             { usernameField: 'email' },
@@ -29,11 +29,12 @@ module.exports =(passport)=>{
                             return done(null, false);
                         },
                     );
-            });
-        }),
+                });
+            },
+        ),
     );
     // OAuth Google strat
-    
+
     passport.serializeUser((user, cb) => {
         cb(null, user.id);
     });
@@ -42,6 +43,5 @@ module.exports =(passport)=>{
             cb(err, user);
         });
     });
-    
-}
+};
 // Local Strat

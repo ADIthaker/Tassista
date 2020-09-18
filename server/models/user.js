@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const pointSchema = require('./location');
+
 const { Schema } = mongoose;
 
 const user = new Schema({
@@ -12,13 +14,7 @@ const user = new Schema({
     googleId: String,
     phoneNo: Number,
     location: {
-        type: {
-            type: String,
-            enum: ['Point'],
-        },
-        coordinates: {
-            type: [Number],
-        },
+        type: pointSchema,
     },
     address: String,
     role: Number,
