@@ -8,7 +8,7 @@ const User = require('../models/user');
 
 //= ============Register a user=============//
 exports.userRegister = (req, res) => {
-    const { email, password, username } = req.body;
+    const { email, password, username, phoneno } = req.body;
     User.findOne({ email: email }, async (err, doc) => {
         if (err) throw err;
         if (doc) return res.send('User already exists');
@@ -19,6 +19,7 @@ exports.userRegister = (req, res) => {
                 email: email,
                 password: hashedPwd,
                 username: username,
+                phoneNo: phoneno,
             });
             await user.save();
             console.log('USER IS CREATED!!');

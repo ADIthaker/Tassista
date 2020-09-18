@@ -9,14 +9,17 @@ import axios from 'axios';
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const usernameRegex = /\w \w/;
 const passwordRegex = /^[A-Za-z]\w{7,14}$/;
+const phoneNoRegex = /^[0-9]{10}$/;
 const initialState = {
     emailValue:'',
     usernameValue:'', 
     passwordValue:'',
+    phoneNo:'', 
     validation:{
         emailValid:true,
         passwordValid:true,
-        usernameValid:true
+        usernameValid:true,
+        phoneNoValid:true,
     }
     
 };
@@ -30,6 +33,8 @@ const reducer = (state, action)=>{
             return {... state, passwordValue : action.payload };
         case 'validation':
             return {... state, validation : action.settings};
+        case 'phoneNoChange':
+            return {...state, phoneNoValue: action.payload}
     }
     
 }
@@ -42,18 +47,22 @@ const SignUp = () => {
         let emailTest = state.validation.emailValid;
         let passwordTest = state.validation.passwordValid;
         let usernameTest = state.validation.usernameValid;
+        let phoneNoTest = state.validation.phoneNoValid;
         if(name==='email') {
              emailTest = emailRegex.test(event.target.value);
         } else if(name==='password'){
              passwordTest = passwordRegex.test(event.target.value);
         } else if(name==='username'){
              usernameTest = usernameRegex.test(event.target.value);
+        } else if(name==='phoneNo'){
+             phoneNoTest = phoneNoRegex.test(event.target.value)
         }
         dispatch({type:'validation',
             settings:{
                 emailValid:emailTest,
                 passwordValid:passwordTest,
                 usernameValid:usernameTest,
+                phoneNoValid:phoneNoTest,
             }
         })
         const typeToPass = name + 'Change';
@@ -68,6 +77,7 @@ const SignUp = () => {
             email:state.emailValue,
             password:state.passwordValue,
             username:state.usernameValue,
+            phoneno:state.phoneNo,
         })
         .then(r=>console.log(r,'submit'));
 
@@ -130,6 +140,16 @@ const SignUp = () => {
                                         className = {classes.root}
                                         error = {state.validation.passwordValid===false ? true:false}
                                         helperText = {state.validation.passwordValid===false ? "Invalid Password" : ''}
+                                        />
+                                        <TextField 
+                                        variant = "outlined"
+                                        label = "Mobile Number"
+                                        name = "phoneNo"
+                                        fullWidth
+                                        onChange = {(e)=>fieldChangeHandler('phoneNo',e)}
+                                        className = {classes.root}
+                                        error = {state.validation.phoneNoValid===false ? true:false}
+                                        helperText = {state.validation.phoneNoValid===false ? "Invalid Mobile Number" : ''}
                                         />
                                     <Button className={classes.submitButton} width={1} type="submit">Submit</Button>
                                 </form>
