@@ -4,7 +4,7 @@ const pointSchema = require('./location');
 
 const { Schema } = mongoose;
 
-const user = new Schema({
+const driver = new Schema({
     email: {
         type: String,
         required: true,
@@ -13,14 +13,24 @@ const user = new Schema({
     password: String,
     googleId: String,
     phoneNo: Number,
-    location: {
+    addressCoords: {
         type: pointSchema,
         required: true,
     },
-    fixedLocations: {
-        type: [pointSchema],
+    type: {
+        type: String,
+        required: true,
+        default: 'basic',
+    },
+    rating: {
+        type: Number,
+        default: NaN,
+    },
+    total_rating: {
+        type: Number,
+        default: 0,
     },
     address: String,
 });
 
-module.exports = mongoose.model('User', user);
+module.exports = mongoose.model('Driver', driver);
