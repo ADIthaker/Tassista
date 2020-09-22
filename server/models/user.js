@@ -15,7 +15,6 @@ const user = new Schema({
     phoneNo: Number,
     location: {
         type: pointSchema,
-        required: true,
     },
     fixedLocations: {
         type: [pointSchema],

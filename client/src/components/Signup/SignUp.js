@@ -14,7 +14,7 @@ const initialState = {
     emailValue:'',
     usernameValue:'', 
     passwordValue:'',
-    phoneNo:'', 
+    phoneNoValue:'', 
     validation:{
         emailValid:true,
         passwordValid:true,
@@ -31,15 +31,16 @@ const reducer = (state, action)=>{
             return {... state, usernameValue : action.payload };
         case 'passwordChange':
             return {... state, passwordValue : action.payload };
+        case 'phoneNoChange':
+            return {...state, phoneNoValue: action.payload};
         case 'validation':
             return {... state, validation : action.settings};
-        case 'phoneNoChange':
-            return {...state, phoneNoValue: action.payload}
+        
     }
     
 }
 
-const SignUp = () => {
+const SignUp = (props) => {
     
     const [state, dispatch] = useReducer(reducer, initialState);
     const classes = useStyles();
@@ -77,7 +78,7 @@ const SignUp = () => {
             email:state.emailValue,
             password:state.passwordValue,
             username:state.usernameValue,
-            phoneno:state.phoneNo,
+            phoneNo:state.phoneNo,
         })
         .then(r=>console.log(r,'submit'));
 

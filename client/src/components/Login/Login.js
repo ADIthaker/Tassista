@@ -2,8 +2,7 @@ import React,{useReducer} from 'react';
 import {Grid, TextField, Box, Button, Avatar} from '@material-ui/core';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
-import {Redirect} from 'react-router-dom';
-import axios from 'axios';
+import useData from '../../hooks/useData';
 
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const passwordRegex = /^[A-Za-z]\w{7,14}$/;
@@ -28,8 +27,9 @@ const reducer = (state, action)=>{
     
 }
 
-const Login = () => {
+const Login = (props) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [setData, getData, user] = useData();
     const classes = useStyles();
     const fieldChangeHandler = (name,event) =>{
         let emailTest = state.validation.emailValid;
@@ -41,14 +41,14 @@ const Login = () => {
         } 
         dispatch({type:'validation',
             settings:{
-                emailValid:emailTest,
-                passwordValid:passwordTest,
+                emailValid: emailTest,
+                passwordValid: passwordTest,
             }
         })
         const typeToPass = name + 'Change';
-        dispatch({type: typeToPass ,payload:event.target.value}); 
+        dispatch({type: typeToPass ,payload: event.target.value}); 
     }
-    const redirectToProfile = (res)=>{
+    const redirectToProfile = ()=>{
             return fetch('http://localhost:4000/profile',{
                 method: 'GET',
                 withCredentials: true,
@@ -58,11 +58,11 @@ const Login = () => {
                   'Content-Type': 'application/json'
             }})
             .then(j=>j.json())
-            .then(r=>console.log(r));
+            .then(r=>setData(r));
             
          
     }
-    const formSubmitHandler = (event)=>{
+    const formSubmitHandler = (event) => {
         event.preventDefault();
         return fetch('http://localhost:4000/login',{
             method: 'POST',
@@ -73,13 +73,17 @@ const Login = () => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email:state.emailValue,
-                password:state.passwordValue,
+                email: state.emailValue,
+                password: state.passwordValue,
             })
         }   
     ) 
     .then(r=>r.json())
-    .then(res=>redirectToProfile(res))
+    .then(res=>{
+        console.log(res,'from login');
+        return setData(res);   //sessionStorage.setItem('username',res)
+    })
+    .then(()=>getData());
 
     }
 

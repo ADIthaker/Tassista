@@ -28,27 +28,24 @@ exports.userRegister = (req, res) => {
     });
 };
 
-exports.userLogin = (req, res, next) => {
-    passport.authenticate('local', (err, user) => {
+exports.userLogin = async (req, res, next) => {
+    passport.authenticate('local', async (err, user) => {
         try {
-            // console.log(info);
-            if (err) {
+            console.log(user);
+            if (err || !user) {
+                // const errormsg = new Error('An Error occurred');
                 return res.json({ message: err });
             }
-            if (!user) {
-                res.json({ message: 'no such user' });
-            } else {
-                req.logIn(user, (error) => {
-                    if (error) {
-                        res.json({ message: error });
-                    }
-                    // console.log(req.session, req.user);
-                    // return res.json({ message: 'gottem' });
-                    const body = { _id: user._id, email: user.email };
-                    const token = jwt.sign({ user: body }, 'top_secret');
-                    return res.json({ token });
-                });
-            }
+            req.logIn(user, (error) => {
+                if (error) {
+                    res.json({ message: error });
+                }
+                // console.log(req.session, req.user);
+                // return res.json({ message: 'gottem' });
+                const body = { _id: user._id, email: user.email };
+                const token = jwt.sign({ user: body }, 'top_secret');
+                return res.json({ token });
+            });
         } catch (error) {
             return next(error);
         }
@@ -57,8 +54,17 @@ exports.userLogin = (req, res, next) => {
 
 exports.userLogout = (req, res) => {
     req.logOut();
+    console.log(req.session, 'logged out');
     return res.json({ message: 'logged out' });
 };
 exports.getUser = (req, res) => {
-    return res.json({ user: req.user });
+    if (
+        req.session.passport === undefined ||
+        Object.keys(req.session.passport).length === 0
+    ) {
+        return res.json({ user: 'No user found' });
+    }
+    User.findOne({ _id: req.session.passport.user })
+        .then((user) => res.json({ user: user }))
+        .catch((err) => console.log(err));
 };

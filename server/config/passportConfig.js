@@ -7,28 +7,33 @@ module.exports = (passport) => {
     passport.use(
         new LocalStrategy(
             { usernameField: 'email' },
-            (email, password, done) => {
+            async (email, password, done) => {
                 // console.log(username, password);
                 User.findOne({ email: email }, async (err, user) => {
+                    // console.log(user, err);
                     if (err) {
-                        throw err;
+                        return done(err, false);
                     }
                     if (!user) {
                         return done(null, false);
+                        // eslint-disable-next-line no-else-return
                     }
-                    await bcrypt.compare(
-                        password,
-                        user.password,
-                        (error, result) => {
-                            if (error) {
-                                throw error;
-                            }
-                            if (result === true) {
-                                return done(null, user);
-                            }
+                    bcrypt.compare(password, user.password, (error, result) => {
+                        console.log(result, 'result');
+                        if (error) {
+                            throw error;
+                        }
+                        if (!result) {
                             return done(null, false);
-                        },
-                    );
+                        }
+                        if (result) {
+                            return done(null, user);
+                        }
+
+                        // response is OutgoingMessage object that server response http request
+                    });
+
+                    // return done(null, false);
                 });
             },
         ),

@@ -19,6 +19,7 @@ router.get(
         scope: ['profile', 'email'],
     }),
 );
+// router.get('/user', authController.getUser);
 router.get('/profile', authController.getUser);
 router.get('/google/redirect', passport.authenticate('google'), (req, res) =>
     res.redirect('http://localhost:3000'),
