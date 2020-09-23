@@ -3,7 +3,7 @@ import {Grid, TextField, Box, Button, Avatar} from '@material-ui/core';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
 import useData from '../../hooks/useData';
-
+import {useHistory} from 'react-router-dom';
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const passwordRegex = /^[A-Za-z]\w{7,14}$/;
 const initialState = {
@@ -28,8 +28,9 @@ const reducer = (state, action)=>{
 }
 
 const Login = (props) => {
+    const history = useHistory();
     const [state, dispatch] = useReducer(reducer, initialState);
-    const [setData, getData, user] = useData();
+    //const [setData, getData, user] = useData();
     const classes = useStyles();
     const fieldChangeHandler = (name,event) =>{
         let emailTest = state.validation.emailValid;
@@ -48,20 +49,20 @@ const Login = (props) => {
         const typeToPass = name + 'Change';
         dispatch({type: typeToPass ,payload: event.target.value}); 
     }
-    const redirectToProfile = ()=>{
-            return fetch('http://localhost:4000/profile',{
-                method: 'GET',
-                withCredentials: true,
-                credentials: 'include',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-            }})
-            .then(j=>j.json())
-            .then(r=>setData(r));
+    // const redirectToProfile = ()=>{
+    //         return fetch('http://localhost:4000/profile',{
+    //             method: 'GET',
+    //             withCredentials: true,
+    //             credentials: 'include',
+    //             headers: {
+    //               'Accept': 'application/json',
+    //               'Content-Type': 'application/json'
+    //         }})
+    //         .then(j=>j.json())
+    //         .then(r=>setData(r));
             
          
-    }
+    // }
     const formSubmitHandler = (event) => {
         event.preventDefault();
         return fetch('http://localhost:4000/login',{
@@ -81,9 +82,9 @@ const Login = (props) => {
     .then(r=>r.json())
     .then(res=>{
         console.log(res,'from login');
-        return setData(res);   //sessionStorage.setItem('username',res)
+        history.push('/');   //sessionStorage.setItem('username',res)
     })
-    .then(()=>getData());
+    //.then(()=>{history.push('/');//eturn getData();});
 
     }
 

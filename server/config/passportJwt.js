@@ -14,6 +14,7 @@ module.exports = (passport) => {
                 ),
             },
             async (token, done) => {
+                console.log(token);
                 try {
                     return done(null, token.user);
                 } catch (error) {

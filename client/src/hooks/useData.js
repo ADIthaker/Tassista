@@ -5,7 +5,7 @@ const useData = () => {
     
   const setData = (data) => {
     sessionStorage.setItem('myData', JSON.stringify(data));
-    console.log(data, "from setData");
+    //console.log(data, "from setData");
   };
 
   const getData = () => {
