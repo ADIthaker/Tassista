@@ -22,7 +22,7 @@ router.get(
 // router.get('/user', authController.getUser);
 router.get('/profile', authController.getUser);
 router.get('/google/redirect', passport.authenticate('google'), (req, res) =>
-    res.redirect('http://localhost:3000'),
+    res.redirect('http://localhost:3000/profile'),
 );
 
 module.exports = router;

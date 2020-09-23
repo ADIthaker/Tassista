@@ -1,6 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 
+
 const useStyles = makeStyles(theme=>({
     main:{
         height:'700px',
@@ -12,11 +13,14 @@ const useStyles = makeStyles(theme=>({
     root: {
         margin:'10px 0',
     },
-    form: {
+    formGrid: {
         boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.07), 0 3px 30px 0 rgba(0, 0, 0, 0.07)',
         borderRadius :'12px',
         padding: '2rem 3rem',
         marginTop: '3rem',
+    },
+    form:{
+        backgroundColor:'white',
     },
     line:{
         color:'#ccc',
@@ -37,6 +41,7 @@ const useStyles = makeStyles(theme=>({
     },
     inputFields : {
         padding:'3rem',
+        backgroundColor:"white",
     },
     gButton :{
         padding : '13px 15px',
@@ -48,7 +53,11 @@ const useStyles = makeStyles(theme=>({
     },
     submitButton : {
         padding:'10px 10px', 
-        margin :'1em 0',  
+        margin :'1em 0',
+        width:'100%',  
+    },
+    formTitle:{
+        ...theme.typography.h4
     }
     
 }));

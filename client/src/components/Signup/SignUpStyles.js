@@ -8,9 +8,11 @@ const useStyles = makeStyles(theme=>({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        ...theme.mixins.toolbar
     },
     root: {
         margin:'10px 0',
+        color : 'white',
     },
     form: {
         boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.07), 0 3px 30px 0 rgba(0, 0, 0, 0.07)',
@@ -47,7 +49,16 @@ const useStyles = makeStyles(theme=>({
         marginRight : '1.5rem',
     },
     submitButton : {
-        padding:'10px 10px',   
+        padding:'10px 10px',
+        width:'100%',    
+    },
+    formTitle:{
+        ...theme.typography.h4
+    },
+    emailText: {
+        ...theme.typography.h6,
+        fontWeight:400,
+        marginBottom:'5px',
     }
     
 }));

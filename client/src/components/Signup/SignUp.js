@@ -1,5 +1,5 @@
 import React,{useReducer,} from 'react';
-import {Grid, TextField, Box, Button, Avatar, FormHelperText} from '@material-ui/core';
+import {Grid, TextField, Box, Button, Avatar, FormHelperText, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './SignUpStyles';
@@ -93,9 +93,9 @@ const SignUp = (props) => {
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.form}>
                     <Grid container direction="column" spacing={3}>
-                        <Grid item ><h1>Sign Up</h1></Grid>
+                        <Grid item ><Typography className={classes.formTitle} >Sign Up</Typography></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
-                            <a href="http://localhost:4000/google">
+                            <a href="http://localhost:4000/google"  style={{textDecoration:'none'}}>
                             <Button className={classes.gButton} >
                                 <Avatar src={Glogo} 
                                 width="24px" height="24px" 
@@ -107,14 +107,14 @@ const SignUp = (props) => {
                             <Box width={1} className = {classes.line} display="flex">or</Box> 
                         </Grid>
                         <Grid item className={classes.inputFields}>
-                            <h3>Sign Up with E-Mail</h3>
+                            <Typography className={classes.emailText}>Sign Up with E-Mail</Typography>
                             <Box width={1}>
                                 <form autoComplete="off" noValidate onSubmit={formSubmitHandler}>
                                     <TextField 
                                         variant = "outlined"
                                         label="Full Name"
                                         name = "username"
-                                        fullWidth
+                                        fullWidth                                        
                                         onChange = {(e)=>fieldChangeHandler('username',e)}
                                         className = {classes.root}
                                         error = {state.validation.usernameValid===false ?  true:false }

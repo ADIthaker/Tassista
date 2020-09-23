@@ -1,9 +1,21 @@
 import React,{useReducer} from 'react';
-import {Grid, TextField, Box, Button, Avatar} from '@material-ui/core';
+import {Grid, TextField, Box, Button, Avatar, Typography} from '@material-ui/core';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
 import useData from '../../hooks/useData';
 import {useHistory} from 'react-router-dom';
+import { Parallax } from 'react-scroll-parallax';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+// const theme = createMuiTheme({
+//     typography: {
+//         fontFamily: 'Rubik, sans-serif',
+//         h2:{
+//             fontSize: 45,
+//         }
+//       },
+// });
+
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const passwordRegex = /^[A-Za-z]\w{7,14}$/;
 const initialState = {
@@ -30,8 +42,9 @@ const reducer = (state, action)=>{
 const Login = (props) => {
     const history = useHistory();
     const [state, dispatch] = useReducer(reducer, initialState);
-    //const [setData, getData, user] = useData();
     const classes = useStyles();
+
+
     const fieldChangeHandler = (name,event) =>{
         let emailTest = state.validation.emailValid;
         let passwordTest = state.validation.passwordValid;
@@ -49,20 +62,7 @@ const Login = (props) => {
         const typeToPass = name + 'Change';
         dispatch({type: typeToPass ,payload: event.target.value}); 
     }
-    // const redirectToProfile = ()=>{
-    //         return fetch('http://localhost:4000/profile',{
-    //             method: 'GET',
-    //             withCredentials: true,
-    //             credentials: 'include',
-    //             headers: {
-    //               'Accept': 'application/json',
-    //               'Content-Type': 'application/json'
-    //         }})
-    //         .then(j=>j.json())
-    //         .then(r=>setData(r));
-            
-         
-    // }
+
     const formSubmitHandler = (event) => {
         event.preventDefault();
         return fetch('http://localhost:4000/login',{
@@ -82,9 +82,8 @@ const Login = (props) => {
     .then(r=>r.json())
     .then(res=>{
         console.log(res,'from login');
-        history.push('/');   //sessionStorage.setItem('username',res)
+        history.push('/profile');   //sessionStorage.setItem('username',res)
     })
-    //.then(()=>{history.push('/');//eturn getData();});
 
     }
 
@@ -92,11 +91,11 @@ const Login = (props) => {
         <Box className={classes.main}>
             <Grid container >
                 <Grid item sm={3} md={4}  />
-                <Grid item sm={6} md={4}  className={classes.form}>
+                <Grid item sm={6} md={4}  className={classes.formGrid}>
                     <Grid container direction="column" spacing={3}>
-                        <Grid item ><h1>Log In</h1></Grid>
+                        <Grid item ><Typography className={classes.formTitle}>Log In</Typography></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
-                        <a href="http://localhost:4000/google">
+                        <a href="http://localhost:4000/google" style={{textDecoration:'none'}}>
                             <Button className={classes.gButton} >
                                 <Avatar src={Glogo} 
                                 width="24px" height="24px" 
@@ -108,9 +107,9 @@ const Login = (props) => {
                             <Box width={1} className = {classes.line} display="flex">or</Box> 
                         </Grid>
                         <Grid item className={classes.inputFields}>
-                            <h3>Log In with E-Mail</h3>
-                            <Box width={1}>
-                                <form autoComplete="off" noValidate onSubmit={formSubmitHandler}>
+                            <Typography>Log In with E-Mail</Typography>
+                            <Box width={1} className={classes.form}>
+                                <form autoComplete="off" noValidate onSubmit={formSubmitHandler} className={classes.form}>
                                     <TextField 
                                         variant = "outlined"
                                         label = "Email"
@@ -144,7 +143,6 @@ const Login = (props) => {
         </Grid>
     {/* <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> */}
         </Box>
-       
     );
 }
 export default Login;
