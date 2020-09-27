@@ -7,7 +7,6 @@ import bgImg from '../../assets/images/624_gold.jpg';
 const Home = (props) => {
     const classes = useStyles();
     const context = useContext(userContext);
-    console.log(context);
     const user = context.getUser('token');
     console.log(user,"in home from sessionstorage");
     if(user === null || !user.success ){

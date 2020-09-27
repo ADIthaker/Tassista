@@ -19,6 +19,7 @@ const Navbar = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const logoutHandler = async () => {
+    setAnchorEl(null);
       const resp = await fetch('http://localhost:4000/logout',{
         method: 'GET',
         withCredentials: true,
@@ -35,7 +36,6 @@ const Navbar = (props) => {
     
   if(user === null || !user.success ){
     return (
-      
         // <nav style={{ width: '100%', position:"fixed", zIndex:'100', backgroundColor:'white' }}>
            <AppBar position = "relative" className = {classes.appbar}>
             <Toolbar className={classes.toolbar} >
@@ -57,13 +57,13 @@ const Navbar = (props) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem component={NavLink} to='/login' >
+                  <MenuItem component={NavLink} to='/login' onClick={()=>setAnchorEl(null)} >
                     Login
                   </MenuItem>  
               {/* <NavLink to='/login' style={{ textDecoration: 'none' }} >
                 <Button className = {classes.login}>Login</Button>
               </NavLink> */}
-                  <MenuItem component={NavLink} to='/register' >
+                  <MenuItem component={NavLink} to='/register' onClick={()=>setAnchorEl(null)} >
                     Signup
                   </MenuItem> 
                 {/* <NavLink to='/register' style={{ textDecoration: 'none' }}>
@@ -121,10 +121,10 @@ const Navbar = (props) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem component={NavLink} to='/profile' >
+                  <MenuItem component={NavLink} to='/profile' onClick={()=>setAnchorEl(null)} >
                     My profile
                   </MenuItem> 
-                  <MenuItem onClick={logoutHandler} >
+                  <MenuItem onClick={logoutHandler}  >
                     Logout
                   </MenuItem> 
                   </Menu>
