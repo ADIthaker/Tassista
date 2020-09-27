@@ -5,9 +5,9 @@ import Home from './components/Home/Home';
 import {Switch, Route, NavLink} from 'react-router-dom';
 import Dashboard from './components/Dashboard/Dashboard';
 import Navbar from './components/Nav/Navbar';
-import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, responsiveFontSizes} from '@material-ui/core/styles';
 
-let theme = createMuiTheme({
+let theme1 = createMuiTheme({
   typography: {
       fontFamily: 'Rubik, sans-serif',
       h5:{
@@ -30,12 +30,11 @@ let theme = createMuiTheme({
 
     },
 });
-theme = responsiveFontSizes(theme)
+theme1 = responsiveFontSizes(theme1)
 const App = () =>  {
-  //console.log(theme);
   //const userData = useContext(userContext);
   return(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme1}>
       <Navbar />
         <Switch>
           <Route path="/login">

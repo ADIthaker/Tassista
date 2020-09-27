@@ -12,6 +12,7 @@ module.exports = (passport) => {
             },
             (accessToken, refreshToken, profile, done) => {
                 console.log('Profile', profile);
+                // console.log(accessToken);
                 User.findOne({ googleId: profile.id }, async (err, user) => {
                     if (err) {
                         done(err, false);

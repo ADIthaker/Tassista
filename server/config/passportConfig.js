@@ -24,7 +24,7 @@ module.exports = (passport) => {
                             throw error;
                         }
                         if (!result) {
-                            return done(null, false);
+                            return done(null, false, { success: false, msg: "you entered the wrong password" });
                         }
                         if (result) {
                             return done(null, user);

@@ -1,15 +1,17 @@
 import React,{useContext, useEffect} from 'react';
-import {AppBar, Button, Toolbar,Typography, Box} from '@material-ui/core';
+import {AppBar, Button, Toolbar,Typography, Box, Container, Avatar} from '@material-ui/core';
 import {userContext} from '../../contexts/userContext';
 import  useStyles from "./DashboardStyles";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 const Dashboard = (props) => {
+
     const classes = useStyles();
     const context = useContext(userContext);
     const history = useHistory();
-    console.log(context.user,'from dashboard');
-    if(context.user.user === 'No user found')
+    const user = context.getUser('token'); 
+    console.log(user,'from dashboard');
+    if(user === null)
     {
         history.push('/');
     }
@@ -32,14 +34,13 @@ const Dashboard = (props) => {
     //     getProfile();
     //     // to get user after every re-render or if its a redirect from the oauth page
     // }, []);
-    if(context.user.user === undefined){
-        return (<div>Loading ...</div>);
+    if(user.user === undefined || user === null){
+        return (<Redirect to="/" />);
     } else {
         return(
-            <div className={classes.main}>
-                <h1>{context.user.user.email}</h1>
-                <p>:/</p>
-            </div>
+            <Container maxWidth="md" className={classes.main}>
+                <h2>{user.user.username}</h2>
+            </Container>
            
         );
     }

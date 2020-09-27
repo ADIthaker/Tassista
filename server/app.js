@@ -20,7 +20,7 @@ app.use(
     }),
 );
 app.use(cookieParser('cats'));
-require('./config/passportConfig')(passport);
+// require('./config/passportConfig')(passport);
 require('./config/passportOauthConfig')(passport);
 require('./config/passportJwt')(passport);
 

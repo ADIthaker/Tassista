@@ -3,32 +3,33 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+
 module.exports = (passport) => {
     passport.use(
         new JWTstrategy(
             {
-                secretOrKey: 'top_secret',
-
-                jwtFromRequest: ExtractJWT.fromUrlQueryParameter(
-                    'secret_token',
-                ),
+                jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme("Bearer"),
+                secretOrKey: 'aditya',
+                algorithms: ['RS256'],
             },
-            async (token, done) => {
-                console.log(token);
-                try {
-                    return done(null, token.user);
-                } catch (error) {
-                    done(error);
-                }
+            function (jwtPayload, done) {
+                console.log('HI');
+                User.findOne({ email: jwtPayload.user.email }, function (
+                    err,
+                    user,
+                ) {
+                    if (err) {
+                        console.log(err);
+                        return done(err, false);
+                    }
+                    if (user) {
+                        console.log(user);
+                        return done(null, user);
+                    }
+                    console.log('here');
+                    return done(null, false);
+                });
             },
         ),
     );
-    passport.serializeUser((user, cb) => {
-        cb(null, user.id);
-    });
-    passport.deserializeUser((id, cb) => {
-        User.findOne({ _id: id }, (err, user) => {
-            cb(err, user);
-        });
-    });
 };

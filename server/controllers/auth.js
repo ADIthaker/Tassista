@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+// const issueJWT = require('../utils/issueJWT');
 // require('../config/passportConfig')(passport);
 //= ============Imports_END=============//
 
@@ -28,28 +29,36 @@ exports.userRegister = (req, res) => {
     });
 };
 
-exports.userLogin = async (req, res, next) => {
-    passport.authenticate('local', async (err, user) => {
-        try {
-            console.log(user);
-            if (err || !user) {
-                // const errormsg = new Error('An Error occurred');
-                return res.json({ message: err });
-            }
-            req.logIn(user, (error) => {
-                if (error) {
-                    res.json({ message: error });
-                }
-                // console.log(req.session, req.user);
-                // return res.json({ message: 'gottem' });
-                const body = { _id: user._id, email: user.email };
-                const token = jwt.sign({ user: body }, 'top_secret');
-                return res.json({ token });
+exports.userLogin = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email }).exec();
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                msg: 'could not find user',
             });
-        } catch (error) {
-            return next(error);
         }
-    })(req, res, next);
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (isMatch) {
+            const payload = { user };
+            // console.log(payload.user, 'test');
+            const token = jwt.sign(payload, 'aditya', {
+                expiresIn: 86400 * 7,
+            });
+            return res.status(200).json({
+                success: true,
+                token: token,
+                user: user,
+            });
+        }
+        return res.status(401).json({
+            success: false,
+            msg: 'you entered the wrong password',
+        });
+    } catch (err) {
+        console.log(err);
+        return res.json({ message: err });
+    }
 };
 
 exports.userLogout = (req, res) => {
@@ -57,6 +66,7 @@ exports.userLogout = (req, res) => {
     console.log(req.session, 'logged out');
     return res.json({ message: 'logged out' });
 };
+
 exports.getUser = (req, res) => {
     if (
         req.session.passport === undefined ||

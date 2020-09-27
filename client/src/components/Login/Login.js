@@ -1,11 +1,11 @@
-import React,{useReducer} from 'react';
+import React,{useReducer, useContext} from 'react';
 import {Grid, TextField, Box, Button, Avatar, Typography} from '@material-ui/core';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
-import useData from '../../hooks/useData';
 import {useHistory} from 'react-router-dom';
 import { Parallax } from 'react-scroll-parallax';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {userContext} from '../../contexts/userContext';
 
 // const theme = createMuiTheme({
 //     typography: {
@@ -41,6 +41,7 @@ const reducer = (state, action)=>{
 
 const Login = (props) => {
     const history = useHistory();
+    const context = useContext(userContext);
     const [state, dispatch] = useReducer(reducer, initialState);
     const classes = useStyles();
 
@@ -63,7 +64,7 @@ const Login = (props) => {
         dispatch({type: typeToPass ,payload: event.target.value}); 
     }
 
-    const formSubmitHandler = (event) => {
+const formSubmitHandler = (event) => {
         event.preventDefault();
         return fetch('http://localhost:4000/login',{
             method: 'POST',
@@ -82,10 +83,16 @@ const Login = (props) => {
     .then(r=>r.json())
     .then(res=>{
         console.log(res,'from login');
-        history.push('/profile');   //sessionStorage.setItem('username',res)
+        //sessionStorage.setItem('user',res);
+        if(res.success){
+            context.setUser('token',res);
+            history.push('/profile');
+        }
+           //sessionStorage.setItem('username',res)
     })
+    .catch(err=>console.log(err));
 
-    }
+}
 
     return(
         <Box className={classes.main}>
