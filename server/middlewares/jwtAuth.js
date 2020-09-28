@@ -31,3 +31,18 @@ exports.checkToken = (req, res, next) => {
         res.sendStatus(403);
     }
 };
+
+exports.isToken = (req, res) => {
+    const header = req.headers['authorization'];
+
+    if (typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
+
+        req.token = token;
+        return true;
+    } else {
+        // If header is undefined return Forbidden (403)
+        return false;
+    }
+};

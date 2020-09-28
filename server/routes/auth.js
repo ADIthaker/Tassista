@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const authController = require('../controllers/auth');
 const { isAuth, isAlreadyLoggedIn } = require('../middlewares/isAuth');
 const jwtAuth = require('../middlewares/jwtAuth');
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -15,17 +16,17 @@ router.post('/login', authController.userLogin);
 router.get('/logout', authController.userLogout);
 router.get(
     '/google',
-    isAlreadyLoggedIn,
     passport.authenticate('google', {
         scope: ['profile', 'email'],
     }),
 );
 // router.get('/user', authController.getUser);
-router.get('/profile', jwtAuth.checkToken, jwtAuth.verifyUser);
+// router.get('/profile', jwtAuth.checkToken, jwtAuth.verifyUser);
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) =>
     res.redirect('http://localhost:3000/'),
 );
-router.get('/session',(req, res) => console.log(req.session));
+router.get('/requser',(req, res) => res.send(req.user));
+
 
 module.exports = router;

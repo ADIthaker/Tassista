@@ -5,29 +5,29 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const authRoutes = require('./routes/auth');
+const isAuth = require('./middlewares/isAuth');
+const protectedRoutes = require('./routes/protected');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(
-    session({
-        secret: 'cats',
-        resave: true,
-        saveUninitialized: true,
+    cookieSession({
+        maxAge: 24 * 60 * 60 * 1000,
+        keys: [process.env.COOKIE_KEY],
     }),
 );
-app.use(cookieParser('cats'));
+app.use(passport.initialize());
+app.use(passport.session());
 // require('./config/passportConfig')(passport);
 require('./config/passportOauthConfig')(passport);
 require('./config/passportJwt')(passport);
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(authRoutes);
+app.use(isAuth.isAuth);
+app.use(protectedRoutes);
 
 mongoose
     .connect(process.env.MONGODB_URI, {

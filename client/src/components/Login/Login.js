@@ -4,7 +4,6 @@ import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
 import {useHistory} from 'react-router-dom';
 import { Parallax } from 'react-scroll-parallax';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import {userContext} from '../../contexts/userContext';
 
 // const theme = createMuiTheme({
@@ -83,12 +82,12 @@ const formSubmitHandler = (event) => {
     .then(r=>r.json())
     .then(res=>{
         console.log(res,'from login');
-        //sessionStorage.setItem('user',res);
+        context.setAuth(res.success);
+        localStorage.setItem('token',res.token);
         if(res.success){
-            context.setUser('token',res);
+            context.setAppAuth(res.user);
             history.push('/profile');
         }
-           //sessionStorage.setItem('username',res)
     })
     .catch(err=>console.log(err));
 

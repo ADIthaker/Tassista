@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const jwtAuth = require('../middlewares/jwtAuth');
 // const issueJWT = require('../utils/issueJWT');
 // require('../config/passportConfig')(passport);
 //= ============Imports_END=============//
@@ -68,13 +69,8 @@ exports.userLogout = (req, res) => {
 };
 
 exports.getUser = (req, res) => {
-    if (
-        req.session.passport === undefined ||
-        Object.keys(req.session.passport).length === 0
-    ) {
-        return res.json({ user: 'No user found' });
-    }
-    User.findOne({ _id: req.session.passport.user })
-        .then((user) => res.json({ user: user }))
-        .catch((err) => console.log(err));
+    if (req.user) {
+        return res.json(req.user);
+    } 
+    jwtAuth.verifyUser(req, res);
 };

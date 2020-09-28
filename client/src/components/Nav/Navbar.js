@@ -7,7 +7,7 @@ import {userContext} from '../../contexts/userContext';
 
 const Navbar = (props) => {
   const context = useContext(userContext);
-  const user  = context.getUser('token');
+  // const user  = context.getUser('token');
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,12 +29,14 @@ const Navbar = (props) => {
           'Content-Type': 'application/json'
     }});
     const respJson = await resp.json();
-    context.removeUser('token');
+    localStorage.clear();
+    context.setAppAuth(null);
+    context.setAuth(false);
     history.push('/');
     }
-    console.log(user,"from navbar");
-    
-  if(user === null || !user.success ){
+    //console.log(user,"from navbar");
+    console.log(context.user, context.isAuth);
+  if(context.user === null || !context.isAuth ){
     return (
         // <nav style={{ width: '100%', position:"fixed", zIndex:'100', backgroundColor:'white' }}>
            <AppBar position = "relative" className = {classes.appbar}>

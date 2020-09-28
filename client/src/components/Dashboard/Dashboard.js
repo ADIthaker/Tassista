@@ -9,17 +9,16 @@ const Dashboard = (props) => {
     const classes = useStyles();
     const context = useContext(userContext);
     const history = useHistory();
-    const user = context.getUser('token'); 
-    console.log(user,'from dashboard');
-    if(user === null){
+    // const user = context.getUser('token'); 
+    console.log(context.user,'from dashboard');
+    if(context.user === null){
         return (<Redirect to="/" />);
     } 
     else {
         return(
             <Container maxWidth="md" className={classes.main}>
-                <h2>{user.user.username}</h2>
+                <h2>{context.user.username}</h2>
             </Container>
-           
         );
     }
     

@@ -7,9 +7,9 @@ import bgImg from '../../assets/images/624_gold.jpg';
 const Home = (props) => {
     const classes = useStyles();
     const context = useContext(userContext);
-    const user = context.getUser('token');
-    console.log(user,"in home from sessionstorage");
-    if(user === null || !user.success ){
+    //const user = context.getUser('token');
+    console.log(context.user,"in home from sessionstorage");
+    if(context.user === null || !context.isAuth ){
         return ( 
         <div className={classes.main} my={2} >
             <img src={bgImg} className={classes.img}/>
@@ -19,7 +19,7 @@ const Home = (props) => {
         return(
             <div className={classes.main} my={2} >
                     <img src={bgImg} className={classes.img}/>
-                    <p>{user.user.email}</p>
+                    <p>{context.user.email}</p>
             </div>
         );
     }
