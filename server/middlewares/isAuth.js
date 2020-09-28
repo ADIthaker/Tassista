@@ -1,6 +1,9 @@
 const jwtAuth = require('./jwtAuth');
 
 exports.isAuth = (req, res, next) => {
+    console.log('\n\n\n', req.user, '\n\n\n');
+    // console.log(jwtAuth.isToken(req, res));
+    // console.log(!req.user && !jwtAuth.isToken(req, res))
     if (!req.user && !jwtAuth.isToken(req, res)) {
         return res.redirect('http://localhost:3000/login');
     }

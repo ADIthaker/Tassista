@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 exports.verifyUser = (req, res) => {
+
     jwt.verify(req.token, 'aditya', (err, authorizedData) => {
         if (err) {
             // If error send Forbidden (403)
@@ -36,6 +37,9 @@ exports.isToken = (req, res) => {
     const header = req.headers['authorization'];
 
     if (typeof header !== 'undefined') {
+        if(header === "Bearer "){
+            return false;
+        }
         const bearer = header.split(' ');
         const token = bearer[1];
 

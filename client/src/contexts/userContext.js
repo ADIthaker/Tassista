@@ -8,23 +8,34 @@ const token = localStorage.getItem('token');
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuth, setAuth] = useState(false);
+  const [type, setType] = useState("user");
   // const [loading, setLoading] = useState(false);
-  console.log(user,"user");
+  //console.log(user,"user");
   const getUser  = async () => {
     const url = "http://localhost:4000/userinfo";
-    const userJ = await fetch(url,
-      {
-        credentials:"include",
-        withCredentials:true,
-        headers:{
-          'Authorization': "Bearer "+token //check this
+    try{
+      const userJ = await fetch(url,
+        {
+          credentials:"include",
+          withCredentials:true,
+          headers:{
+            'Authorization': "Bearer "+token //check this
+          }
+      });
+      const user = await userJ.json();
+      console.log(user, "data from fetch");
+      if(user.hasOwnProperty('authorizedData')){
+        if(user.authorizedData.hasOwnProperty('user')){
+          setUser(user.authorizedData.user);
         }
-    });
-    const user = await userJ.json();
-    setUser(user);
-    setAuth(true);
-    //console.log(user,"from oauth in contextjs");
-    // setData('oauth',user);
+        setUser(user.authorizedData.driver);
+      } else{
+        setUser(user);
+      } 
+      setAuth(true);
+    } catch (err){
+      console.log(err);
+    }
   }
   useEffect(()=>{
     getUser();

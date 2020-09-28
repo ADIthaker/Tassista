@@ -13,20 +13,34 @@ router.get('/', (req, res) => {
 
 router.post('/register', authController.userRegister);
 router.post('/login', authController.userLogin);
+router.post('/driver/login', authController.driverLogin);
+router.post('/driver/register', authController.driverRegister);
 router.get('/logout', authController.userLogout);
 router.get(
     '/google',
-    passport.authenticate('google', {
+    passport.authenticate('user', {
+        scope: ['profile', 'email'],
+    }),
+);
+router.get(
+    '/driver/google',
+    passport.authenticate('driver', {
         scope: ['profile', 'email'],
     }),
 );
 // router.get('/user', authController.getUser);
 // router.get('/profile', jwtAuth.checkToken, jwtAuth.verifyUser);
 
-router.get('/google/redirect', passport.authenticate('google'), (req, res) =>
-    res.redirect('http://localhost:3000/'),
+router.get(
+    '/google/user/redirect',
+    passport.authenticate('user'),
+    (req, res) => res.redirect('http://localhost:3000/'),
 );
-router.get('/requser',(req, res) => res.send(req.user));
-
+router.get(
+    '/google/driver/redirect',
+    passport.authenticate('driver'),
+    (req, res) => res.redirect('http://localhost:3000/'),
+);
+router.get('/requser', (req, res) => res.send(req.user));
 
 module.exports = router;

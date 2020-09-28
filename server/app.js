@@ -23,7 +23,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 // require('./config/passportConfig')(passport);
 require('./config/passportOauthConfig')(passport);
-require('./config/passportJwt')(passport);
+// require('./config/passportOauthDriver')(passport);
+// require('./config/passportJwt')(passport);
 
 app.use(authRoutes);
 app.use(isAuth.isAuth);

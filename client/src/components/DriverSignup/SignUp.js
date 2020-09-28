@@ -73,7 +73,7 @@ const SignUp = (props) => {
 
     const formSubmitHandler = (event)=>{
         event.preventDefault();
-        axios.post('http://localhost:4000/register',
+        axios.post('http://localhost:4000/driver/register',
         {
             email:state.emailValue,
             password:state.passwordValue,
@@ -89,13 +89,14 @@ const SignUp = (props) => {
     // }
     return(
         <Box className={classes.main} >
+            <h1>Driver</h1>
             <Grid container >
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.form}>
                     <Grid container direction="column" spacing={3}>
                         <Grid item ><Typography className={classes.formTitle} >Sign Up</Typography></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
-                            <a href="http://localhost:4000/google"  style={{textDecoration:'none'}}>
+                            <a href="http://localhost:4000/driver/google"  style={{textDecoration:'none'}}>
                             <Button className={classes.gButton} >
                                 <Avatar src={Glogo} 
                                 width="24px" height="24px" 

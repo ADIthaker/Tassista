@@ -95,6 +95,7 @@ const formSubmitHandler = (event) => {
 
     return(
         <Box className={classes.main}>
+            <h1>User</h1>
             <Grid container >
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.formGrid}>
@@ -113,7 +114,7 @@ const formSubmitHandler = (event) => {
                             <Box width={1} className = {classes.line} display="flex">or</Box> 
                         </Grid>
                         <Grid item className={classes.inputFields}>
-                            <Typography>Log In with E-Mail</Typography>
+                            <Typography>Log in with Email</Typography>
                             <Box width={1} className={classes.form}>
                                 <form autoComplete="off" noValidate onSubmit={formSubmitHandler} className={classes.form}>
                                     <TextField 

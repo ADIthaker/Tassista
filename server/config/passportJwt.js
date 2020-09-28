@@ -13,7 +13,7 @@ module.exports = (passport) => {
                 algorithms: ['RS256'],
             },
             function (jwtPayload, done) {
-                console.log('HI');
+                console.log('HI'); 
                 User.findOne({ email: jwtPayload.user.email }, function (
                     err,
                     user,

@@ -20,6 +20,10 @@ const user = new Schema({
         type: [pointSchema],
     },
     address: String,
+    role: {
+        type: String,
+        default: 'user',
+    },
 });
 
 module.exports = mongoose.model('User', user);

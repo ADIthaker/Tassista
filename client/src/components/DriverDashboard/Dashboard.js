@@ -17,6 +17,7 @@ const Dashboard = (props) => {
     else {
         return(
             <Container maxWidth="md" className={classes.main}>
+                <h1>Driver</h1>
                 <h2>{context.user.username}</h2>
             </Container>
         );
