@@ -4,6 +4,7 @@ import Glogo from '../../google-hangouts.svg';
 import useStyles from './LoginStyles';
 import {useHistory} from 'react-router-dom';
 import { Parallax } from 'react-scroll-parallax';
+import {Link} from 'react-router-dom';
 import {userContext} from '../../contexts/userContext';
 
 // const theme = createMuiTheme({
@@ -100,7 +101,7 @@ const formSubmitHandler = (event) => {
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.formGrid}>
                     <Grid container direction="column" spacing={3}>
-                        <Grid item ><Typography className={classes.formTitle}>Log In</Typography></Grid>
+                        <Grid item ><Typography className={classes.formTitle}>Log in</Typography></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
                         <a href="http://localhost:4000/driver/google" style={{textDecoration:'none'}}>
                             <Button className={classes.gButton} >
@@ -138,6 +139,9 @@ const formSubmitHandler = (event) => {
                                         error = {state.validation.passwordValid===false ? true:false}
                                         helperText = {state.validation.passwordValid===false ? "Invalid Password" : ''}
                                         />
+                                        <Typography className={classes.formMsg}>
+                                        Not a driver? <Link to="/driver/register" style={{textDecoration:"none",color:"black"}}> Join us</Link>
+                                    </Typography>
                                     <Button className={classes.submitButton} width={1} type="submit" >Submit</Button>
                                 </form>
                             </Box>

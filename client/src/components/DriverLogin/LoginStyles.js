@@ -9,9 +9,13 @@ const useStyles = makeStyles(theme=>({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        padding: "0",
     },
     root: {
-        margin:'10px 0',
+        margin:'8px 0',
+    },
+    formMsg:{
+        ...theme.typography.formMsg,
     },
     formGrid: {
         boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.07), 0 3px 30px 0 rgba(0, 0, 0, 0.07)',

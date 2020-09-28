@@ -12,13 +12,13 @@ const Home = (props) => {
     if(context.user === null || context.user === undefined  || !context.isAuth ){
         return ( 
         <div className={classes.main} my={2} >
-            <img src={bgImg} className={classes.img}/>
+            {/* <img src={bgImg} className={classes.img}/> */}
     </div>
     );
     } else {
         return(
             <div className={classes.main} my={2} >
-                    <img src={bgImg} className={classes.img}/>
+                    {/* <img src={bgImg} className={classes.img}/> */}
                     <p>{context.user.email}</p>
             </div>
         );

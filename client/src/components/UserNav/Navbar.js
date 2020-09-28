@@ -3,7 +3,7 @@ import useStyles from './NavStyles';
 import {AppBar, Button, Toolbar,Typography, Box, Menu, MenuItem} from '@material-ui/core';
 import {NavLink, Link, useHistory} from 'react-router-dom';
 import {userContext} from '../../contexts/userContext';
-
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const Navbar = (props) => {
   const context = useContext(userContext);

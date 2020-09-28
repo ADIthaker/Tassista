@@ -3,6 +3,7 @@ import {Grid, TextField, Box, Button, Avatar, FormHelperText, Typography} from '
 import {makeStyles} from '@material-ui/core/styles';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './SignUpStyles';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -94,7 +95,7 @@ const SignUp = (props) => {
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.form}>
                     <Grid container direction="column" spacing={3}>
-                        <Grid item ><Typography className={classes.formTitle} >Sign Up</Typography></Grid>
+                        <Grid item ><Typography className={classes.formTitle} >Sign up</Typography></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
                             <a href="http://localhost:4000/driver/google"  style={{textDecoration:'none'}}>
                             <Button className={classes.gButton} >
@@ -108,7 +109,7 @@ const SignUp = (props) => {
                             <Box width={1} className = {classes.line} display="flex">or</Box> 
                         </Grid>
                         <Grid item className={classes.inputFields}>
-                            <Typography className={classes.emailText}>Sign Up with E-Mail</Typography>
+                            <Typography className={classes.emailText}>Sign up with Email</Typography>
                             <Box width={1}>
                                 <form autoComplete="off" noValidate onSubmit={formSubmitHandler}>
                                     <TextField 
@@ -153,6 +154,9 @@ const SignUp = (props) => {
                                         error = {state.validation.phoneNoValid===false ? true:false}
                                         helperText = {state.validation.phoneNoValid===false ? "Invalid Mobile Number" : ''}
                                         />
+                                    <Typography className={classes.formMsg}>
+                                        Already a driver?<Link to="/driver/login" style={{textDecoration:"none",color:"black"}}> Click here</Link>
+                                    </Typography>
                                     <Button className={classes.submitButton} width={1} type="submit">Submit</Button>
                                 </form>
                             </Box>

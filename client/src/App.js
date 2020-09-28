@@ -16,29 +16,36 @@ import { createMuiTheme, ThemeProvider, responsiveFontSizes} from '@material-ui/
 let theme1 = createMuiTheme({
   typography: {
       fontFamily: 'Rubik, sans-serif',
-      h5:{
+      h5: {
           fontSize:30,
           fontFamily: 'Playfair Display, serif',
           fontWeight: 500,
           color:'black',
       },
-      h2:{
-        fontSize: 45,
-    },
-    button: {
-      color: 'black',
-    },
-    palette:{
-      primary: {
-        main:'#000'
+      h2: {
+        fontSize: 52,
+      },
+      button: {
+        color: 'black',
+      },
+      palette: {
+        primary: {
+          main:'#000'
+        }
+      },
+      formMsg: {
+        color: 'grey',
+        fontFamily: 'Rubik, sans-serif',
+        fontWeight: 400,
+        fontSize:'14px',
       }
-    }
 
     },
 });
 theme1 = responsiveFontSizes(theme1)
 const App = () =>  {
   const context = useContext(userContext);
+  console.log(theme1.typography);
   console.log(context.user);
   let navbar = (<DefaultNav />);
   if(context.user && context.user.role==='user'){

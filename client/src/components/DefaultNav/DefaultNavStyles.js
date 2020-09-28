@@ -7,14 +7,14 @@ const useStyles = makeStyles(theme=>({
     },
     appbar :{
         backgroundColor : 'white',
-       // boxShadow: 'none',
+        boxShadow: 'none',
+        borderBottom: '1px solid black',
         zIndex:'100',
     },
     toolbar: {
         display: 'flex', 
         justifyContent: 'space-between', 
         flexDirection: 'row',
-        width:'90%',
     },
     login : {
         padding : '0.4rem 1.4rem',
@@ -26,24 +26,6 @@ const useStyles = makeStyles(theme=>({
     },
     logo: {
         ...theme.typography.h5
-    },
-    navbar:{
-        display: 'flex',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        flexGrow: 1,
-        height: '80px',
-        alignItems:'center',
-        position: 'static',
-    },
-    navbar_reverse:{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        flexGrow: 1,
-        height: '80px',
-        alignItems:'center',
-        position: 'static',
     },
 }));
 
