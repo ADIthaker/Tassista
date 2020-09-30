@@ -24,6 +24,7 @@ module.exports = (passport) => {
                             googleId: profile.id,
                             email: profile.emails[0].value,
                             username: profile.displayName,
+                            picture: profile._json.picture[0],
                         });
                         await newUser.save();
                         done(null, newUser);

@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(
     cookieSession({
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 24 * 60 * 60 * 10000,
         keys: [process.env.COOKIE_KEY],
     }),
 );

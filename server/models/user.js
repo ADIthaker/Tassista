@@ -13,6 +13,7 @@ const user = new Schema({
     password: String,
     googleId: String,
     phoneNo: Number,
+    picture: String,
     location: {
         type: pointSchema,
     },

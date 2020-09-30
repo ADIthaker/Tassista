@@ -13,6 +13,7 @@ const driver = new Schema({
     password: String,
     googleId: String,
     phoneNo: Number,
+    picture: String,
     addressCoords: {
         type: pointSchema,
     },
