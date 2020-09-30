@@ -45,8 +45,6 @@ let theme1 = createMuiTheme({
 theme1 = responsiveFontSizes(theme1)
 const App = () =>  {
   const context = useContext(userContext);
-  console.log(theme1.typography);
-  console.log(context.user);
   let navbar = (<DefaultNav />);
   if(context.user && context.user.role==='user'){
     navbar = <UserNav />;

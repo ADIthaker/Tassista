@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 //= ============Imports_START=============//
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
@@ -120,15 +121,14 @@ exports.driverLogin = async (req, res) => {
 };
 exports.userLogout = (req, res) => {
     req.logOut();
-    // console.log(req.session, 'logged out');
     return res.json({ message: 'logged out' });
 };
 
 exports.getUser = (req, res) => {
-    if (req.user) {
-        // console.log('\n\n\n', req.user, '\n\n\n');
+    if (res.locals.isOauth) {
+        console.log(req.user);
         return res.json(req.user);
+    } else if (res.locals.isTokenAuth) {
+        jwtAuth.verifyUser(req, res);
     }
-    jwtAuth.verifyUser(req, res);
 };
-// const driver = await Driver.findOne({ email: req.body.email }).exec();

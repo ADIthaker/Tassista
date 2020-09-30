@@ -27,8 +27,7 @@ require('./config/passportOauthConfig')(passport);
 // require('./config/passportJwt')(passport);
 
 app.use(authRoutes);
-app.use(isAuth.isAuth);
-app.use(protectedRoutes);
+app.use(isAuth.isTokenAuth, isAuth.isOAuth, protectedRoutes);
 
 mongoose
     .connect(process.env.MONGODB_URI, {

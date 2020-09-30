@@ -3,32 +3,42 @@ import React, { createContext, useState, useEffect } from "react";
 
 export const userContext = createContext(null);
 
-const token = localStorage.getItem('token');
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuth, setAuth] = useState(false);
   const [type, setType] = useState("user");
-  // const [loading, setLoading] = useState(false);
-  //console.log(user,"user");
+  const token = localStorage.getItem('token');
+  //console.log(token);
+  let options = {
+    credentials:"include",
+    withCredentials:true,
+  };
+  if(token){
+    options = {
+      credentials:"include",
+      withCredentials:true,
+      headers:{
+        'Authorization': "Bearer "+token,
+      }
+  };
+  }
+  console.log(options);
   const getUser  = async () => {
     const url = "http://localhost:4000/userinfo";
     try{
       const userJ = await fetch(url,
-        {
-          credentials:"include",
-          withCredentials:true,
-          headers:{
-            'Authorization': "Bearer "+token //check this
-          }
-      });
+        options
+      );
       const user = await userJ.json();
       console.log(user, "data from fetch");
       if(user.hasOwnProperty('authorizedData')){
         if(user.authorizedData.hasOwnProperty('user')){
           setUser(user.authorizedData.user);
+        } else {
+          setUser(user.authorizedData.driver);
         }
-        setUser(user.authorizedData.driver);
+        
       } else{
         setUser(user);
       } 
@@ -40,16 +50,6 @@ const UserProvider = ({ children }) => {
   useEffect(()=>{
     getUser();
   },[]);
-  const setData = (key, data) => {
-    localStorage.setItem(key, JSON.stringify(data));
-    setUser(data);
-  };
-  // const getData = (key) => {
-  //   let data = localStorage.getItem(key);
-  //   data = JSON.parse(data);                    // forces re render by changing state
-  //   return data;
-  // };
-
   return (
       <userContext.Provider value={{
           user: user,

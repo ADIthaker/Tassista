@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 exports.verifyUser = (req, res) => {
-
-    jwt.verify(req.token, 'aditya', (err, authorizedData) => {
+    jwt.verify(res.locals.token, 'aditya', (err, authorizedData) => {
         if (err) {
             // If error send Forbidden (403)
             console.log('ERROR: Could not connect to the protected route', err);
@@ -28,25 +27,6 @@ exports.checkToken = (req, res, next) => {
         req.token = token;
         next();
     } else {
-        // If header is undefined return Forbidden (403)
         res.sendStatus(403);
-    }
-};
-
-exports.isToken = (req, res) => {
-    const header = req.headers['authorization'];
-
-    if (typeof header !== 'undefined') {
-        if(header === "Bearer "){
-            return false;
-        }
-        const bearer = header.split(' ');
-        const token = bearer[1];
-
-        req.token = token;
-        return true;
-    } else {
-        // If header is undefined return Forbidden (403)
-        return false;
     }
 };

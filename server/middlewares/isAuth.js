@@ -1,21 +1,28 @@
-const jwtAuth = require('./jwtAuth');
-
-exports.isAuth = (req, res, next) => {
-    console.log('\n\n\n', req.user, '\n\n\n');
-    // console.log(jwtAuth.isToken(req, res));
-    // console.log(!req.user && !jwtAuth.isToken(req, res))
-    if (!req.user && !jwtAuth.isToken(req, res)) {
-        return res.redirect('http://localhost:3000/login');
+exports.isTokenAuth = (req, res, next) => {
+    const header = req.headers['authorization'];
+    // console.log(header);
+    if (typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
+        // console.log(token);
+        res.locals.token = token;
+        res.locals.isTokenAuth = true;
+    } else {
+        res.locals.isTokenAuth = false;
     }
-    return next();
+    next();
+}
+exports.isOAuth = (req, res, next) => {
+    if (req.user) {
+        res.locals.isOauth = true;
+    } else {
+        res.locals.isOauth = false;
+    }
+    if (res.locals.isOauth === false && res.locals.isTokenAuth === false) {
+        return res.json({
+            success: false,
+            message: 'User is not authorized',
+        })
+    }
+    next();
 };
-// exports.isAlreadyLoggedIn = (req, res, next) => {
-//     console.log('in isalreadyauth', req.session.passport);
-//     if (
-//         req.session.passport === undefined ||
-//         Object.keys(req.session.passport).length === 0
-//     ) {
-//         return next();
-//     }
-//     return res.redirect('http://localhost:3000/');
-// };
