@@ -8,6 +8,7 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuth, setAuth] = useState(false);
   const [type, setType] = useState("user");
+  const [isLoading, setLoading] = useState(false);
   const token = localStorage.getItem('token');
   //console.log(token);
   let options = {
@@ -25,8 +26,10 @@ const UserProvider = ({ children }) => {
   }
   console.log(options);
   const getUser  = async () => {
+
     const url = "http://localhost:4000/userinfo";
     try{
+      setLoading(true);
       const userJ = await fetch(url,
         options
       );
@@ -38,12 +41,13 @@ const UserProvider = ({ children }) => {
         } else {
           setUser(user.authorizedData.driver);
         }
-        
       } else{
         setUser(user);
       } 
       setAuth(true);
+      setLoading(false);
     } catch (err){
+      setLoading(false);
       console.log(err);
     }
   }
@@ -56,6 +60,7 @@ const UserProvider = ({ children }) => {
           setAppAuth: setUser,
           isAuth: isAuth,
           setAuth: setAuth,
+          isLoading: isLoading,
       }}>
           {children}
       </userContext.Provider>
