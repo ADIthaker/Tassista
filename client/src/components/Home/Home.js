@@ -8,7 +8,7 @@ const Home = (props) => {
     const classes = useStyles();
     const context = useContext(userContext);
     //const user = context.getUser('token');
-    console.log(context.user,"in home from sessionstorage");
+    // console.log(context.user,"in home from sessionstorage");
     if(context.user === null || context.user === undefined  || !context.isAuth ){
         return ( 
         <div className={classes.main} my={2} >

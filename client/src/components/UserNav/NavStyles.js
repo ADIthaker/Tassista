@@ -31,7 +31,13 @@ const useStyles = makeStyles(theme=>({
         height:"24px",
         width: "24px",
         marginRight:"2px",
-    }
+    }, 
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
+    },
 }));
 
 export default useStyles;

@@ -27,6 +27,12 @@ const useStyles = makeStyles(theme=>({
     logo: {
         ...theme.typography.h5
     },
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
+    },
 }));
 
 export default useStyles;

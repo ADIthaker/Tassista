@@ -10,7 +10,7 @@ const Dashboard = (props) => {
     const classes = useStyles();
     const context = useContext(userContext);
     const history = useHistory(); 
-    console.log(context.user,'from dashboard');
+    // console.log(context.user,'from dashboard');
     if(context.user === null){
         return (<Redirect to="/" />);
     } 

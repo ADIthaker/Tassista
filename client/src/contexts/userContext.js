@@ -24,7 +24,6 @@ const UserProvider = ({ children }) => {
       }
   };
   }
-  console.log(options);
   const getUser  = async () => {
 
     const url = "http://localhost:4000/userinfo";
