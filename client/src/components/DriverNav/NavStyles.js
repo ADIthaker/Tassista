@@ -27,24 +27,11 @@ const useStyles = makeStyles(theme=>({
     logo: {
         ...theme.typography.h5
     },
-    navbar:{
-        display: 'flex',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        flexGrow: 1,
-        height: '80px',
-        alignItems:'center',
-        position: 'static',
-    },
-    navbar_reverse:{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        flexGrow: 1,
-        height: '80px',
-        alignItems:'center',
-        position: 'static',
-    },
+    profile:{
+        width:"24px",
+        height:"24px",
+        marginRight:"2px",
+    }
 }));
 
 export default useStyles;

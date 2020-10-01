@@ -6,6 +6,7 @@ import {useHistory} from 'react-router-dom';
 import { Parallax } from 'react-scroll-parallax';
 import {Link} from 'react-router-dom';
 import {userContext} from '../../contexts/userContext';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 // const theme = createMuiTheme({
 //     typography: {

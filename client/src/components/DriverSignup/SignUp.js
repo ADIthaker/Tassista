@@ -79,7 +79,7 @@ const SignUp = (props) => {
             email:state.emailValue,
             password:state.passwordValue,
             username:state.usernameValue,
-            phoneNo:state.phoneNo,
+            phoneNo:state.phoneNoValue,
         })
         .then(r=>console.log(r,'submit'));
 

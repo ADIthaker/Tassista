@@ -2,13 +2,24 @@ import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme=>({
     main: {
-       margin: '10rem 0rem',
+        ...theme.mixins.toolbar,
+       margin: '10px auto',
+       padding:"0",
        border: '1px solid black',
     },
-    container: {
-        ...theme.mixins.toolbar,
-        margin:'20px auto auto auto ',
-        border: '1px solid black',
+    overlay: {
+        backgroundColor:"black",
+        width: "100%",
+        height: "250px",
+    },
+    profile: {
+        width: "200px",
+        height: "200px",
+        left:"calc(50% - 100px)",
+    },
+    title:{
+        ...theme.typography.h5,
+        textAlign:'center',
     }
 
 

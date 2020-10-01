@@ -1,6 +1,6 @@
 import React , {Fragment, useContext, useEffect, useState} from 'react';
 import useStyles from './NavStyles';
-import {AppBar, Button, Toolbar,Typography, Box, Menu, MenuItem} from '@material-ui/core';
+import {AppBar, Button, Toolbar,Typography, Box, Menu, MenuItem, Avatar} from '@material-ui/core';
 import {NavLink, Link, useHistory} from 'react-router-dom';
 import {userContext} from '../../contexts/userContext';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -8,7 +8,6 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const Navbar = (props) => {
   const context = useContext(userContext);
-  // const user  = context.getUser('token');
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,8 +37,7 @@ const Navbar = (props) => {
     console.log(context, context.isAuth);
 
     return (
-      <div style={{ width: '100%' }}>
-       <AppBar position = "fixed" className = {classes.appbar}>
+       <AppBar position = "relative" className = {classes.appbar}>
          <Toolbar className={classes.toolbar}>
            <Box ml={5}>
           <Typography  className={classes.logo} > 
@@ -50,7 +48,7 @@ const Navbar = (props) => {
            </Box>
            <Box pl={4} > 
            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          Account
+          <Avatar src={context.user.picture} className={classes.profile}/>{context.user.username.split(' ')[0]}<ArrowDropDownIcon/>
           </Button>
               <Menu
                   id="simple-menu"
@@ -69,7 +67,6 @@ const Navbar = (props) => {
           </Box>
          </Toolbar>
        </AppBar>
-       </div>
           
     );
   
