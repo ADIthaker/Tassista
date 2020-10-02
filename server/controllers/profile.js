@@ -1,8 +1,6 @@
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Driver = require('../models/driver');
-const user = require('../models/user');
 
 const verifyUser = (req, res, next) => {
     jwt.verify(res.locals.token, 'aditya', (err, authorizedData) => {
@@ -24,25 +22,34 @@ exports.setUser = (req, res, next) => {
     next();
 };
 exports.changeUserProfile = async (req, res) => {
-    const {
-        email,
-        username,
-        phoneNo,
-        homeLocation,
-        workLocation,
-        address,
-    } = req.body;
+    const { username, phoneNo, homeLocation, workLocation, address } = req.body;
     const user = res.locals.authUser;
     console.log(res.locals);
     console.log(user);
     const query = await User.findOneAndUpdate(
         { _id: user._id },
         {
-            email: email,
             username: username,
             phoneNo: phoneNo,
             homeLocation: homeLocation,
             workLocation: workLocation,
+            address: address,
+        },
+    ).exec();
+    res.json(query);
+};
+
+exports.changeDriverProfile = async (req, res) => {
+    const { username, phoneNo, type, address } = req.body;
+    const user = res.locals.authUser;
+    console.log(res.locals);
+    console.log(user);
+    const query = await Driver.findOneAndUpdate(
+        { _id: user._id },
+        {
+            username: username,
+            phoneNo: phoneNo,
+            type: type,
             address: address,
         },
     ).exec();

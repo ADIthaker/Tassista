@@ -1,20 +1,152 @@
-import React,{useContext, useEffect} from 'react';
-import {AppBar, Button, Toolbar,Typography, Box, Container, Avatar, Grid,useMediaQuery} from '@material-ui/core';
+import React,{useContext, useEffect,useReducer,useState} from 'react';
+import {TextField, Button, Toolbar,Typography, Box, Container, Avatar, Grid,useMediaQuery} from '@material-ui/core';
 import {userContext} from '../../contexts/userContext';
 import  useStyles from "./DashboardStyles";
 import { useHistory, Redirect } from 'react-router-dom';
 import StarIcon from '@material-ui/icons/Star';
+import axios from 'axios';
+
+const usernameRegex = /\w \w/;
+const phoneNoRegex = /^[0-9]{10}$/;
+const initialState = {
+    usernameValue:'', 
+    phoneNoValue:'',
+    addressValue:'', 
+    validation:{
+        usernameValid:true,
+        phoneNoValid:true,
+        addressValid:true,
+    }
+    
+};
+const reducer = (state, action)=>{
+    switch(action.type) {
+        case 'usernameChange':
+            return {... state, usernameValue : action.payload };
+        case 'phoneNoChange':
+            return {...state, phoneNoValue: action.payload};
+        case 'addressChange':
+            return {...state, addressValue: action.payload};
+        case 'validation':
+            return {... state, validation : action.settings};
+        
+    }
+    
+}
 
 const Dashboard = (props) => {
 
     const classes = useStyles();
     const context = useContext(userContext);
-    const history = useHistory(); 
-    // console.log(context.user,'from dashboard');
-    if(context.user === null){
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [isEdit, setEdit] = useState(false);
+    const setInitialFormState = () => {
+        ['phoneNo','username','address'].map(name=>{
+            const typeToPass = name + 'Change';
+            dispatch({type: typeToPass ,payload: context.user[name]});
+        })
+         
+    }
+    const updateFormSubmitHandler = async () => {
+        const token = localStorage.getItem('token');
+        let options = {
+            credentials:"include",
+            withCredentials:true,
+        };
+        if(token){
+            options = {
+            credentials:"include",
+            withCredentials:true,
+            headers:{
+                'Authorization': "Bearer "+token,
+            }
+        };
+        }
+        const data = {
+            email:context.user.email,
+            address:state.addressValue,
+            phoneNo:state.phoneNoValue,
+            username:state.usernameValue,
+        };
+        const url = "http://localhost:4000/driver/profile/update";
+        const resp = await axios.post(url,data,options);
+        console.log(resp);
+        setEdit(false);
+    }
+    const fieldChangeHandler = (name,event) =>{
+        let usernameTest = state.validation.usernameValid;
+        let phoneNoTest = state.validation.phoneNoValid;
+        if(name==='username'){
+             usernameTest = usernameRegex.test(event.target.value);
+        } else if(name==='phoneNo'){
+             phoneNoTest = phoneNoRegex.test(event.target.value);
+        }
+        dispatch({type:'validation',
+            settings:{
+                usernameValid:usernameTest,
+                phoneNoValid:phoneNoTest,
+                addressValid:true
+            }
+        })
+        const typeToPass = name + 'Change';
+        dispatch({type: typeToPass, payload: event.target.value}); 
+    }
+    console.log(state);
+    if(context.user === null && context.isLoading!== true){
         return (<Redirect to="/" />);
+    }
+    else if(context.isLoading){
+        return null;
     } 
     else {
+        if(isEdit){
+            return (
+                <Container maxWidth="md" className={classes.main}>
+                <div className={classes.overlay}></div>
+                <Grid container>
+                   <Grid  item md={4}>
+                    <Grid  container style={{position:"relative",
+                            top:'-100px',
+                            alignItems:"center",
+                        }}>
+                        <Grid item md={12}>
+                        <Avatar src={context.user.picture} className={classes.profile}/>
+                        </Grid>
+                        <Grid item md={12}>
+                        <Typography className={classes.title}>
+                            {context.user.username}
+                        </Typography>
+                        </Grid>
+                    </Grid>
+                    </Grid>
+                    <Grid item md={8}>
+                        <form onSubmit={updateFormSubmitHandler}>
+                            <TextField 
+                            label="Phone Number"
+                            name="phoneNo"
+                            defaultValue={context.user.phoneNo}
+                            error = {state.validation.phoneNoValid===false ?  true:false }
+                            helperText = {state.validation.phoneNoValid===false ? "Invalid phone number" : ''}
+                            onChange = {(e)=>fieldChangeHandler('phoneNo',e)} /><br />
+                            <TextField 
+                            label="Address"
+                            name="address"
+                            defaultValue = {context.user.address}
+                            onChange ={(e)=>fieldChangeHandler('address',e)}  /><br />
+                            <TextField 
+                            label="Name"
+                            name="username"
+                            defaultValue = {context.user.username}
+                            onChange ={(e)=>fieldChangeHandler('username',e)}
+                            error = {state.validation.usernameValid===false ?  true:false }
+                            helperText = {state.validation.usernameValid===false ? "Invalid Name" : ''} /><br />
+                            <Button type="submit">Finish Edit</Button>
+                        </form>
+                    </Grid>
+                </Grid>
+            </Container>
+            )
+        }
         return(
             <Container maxWidth="md" className={classes.main}>
                 <div className={classes.overlay}></div>
@@ -44,11 +176,9 @@ const Dashboard = (props) => {
 
                             </Grid>
                         </Grid>
-                    
+                        <Button onClick={()=>{setEdit(true);setInitialFormState();}} >Edit Profile</Button>
                     </Grid>
-               </Grid>
-                  
-                
+               </Grid>        
             </Container>
         );
     }

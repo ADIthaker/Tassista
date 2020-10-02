@@ -6,7 +6,6 @@ import { useHistory, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 
-const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const usernameRegex = /\w \w/;
 const phoneNoRegex = /^[0-9]{10}$/;
 const initialState = {
@@ -93,7 +92,7 @@ const Dashboard = (props) => {
         const typeToPass = name + 'Change';
         dispatch({type: typeToPass, payload: event.target.value}); 
     }
-    console.log(state);;
+    console.log(state);
     if(context.user === null && context.isLoading!== true){
         return (<Redirect to="/" />);
     }

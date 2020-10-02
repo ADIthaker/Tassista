@@ -27,7 +27,9 @@ exports.verifyUser = (req, res) => {
                 _id: authorizedData.id,
             }).exec();
             console.log('SUCCESS: Set to driver before route');
-            res.locals.authUser = driver;
+            const user = driver; // for the ease of checking in res.locals and in frontend
+            res.locals.authUser = user;
+            authorizedData = { ...authorizedData, user };
             console.log(res.locals, 'user');
             return res.json({
                 message: 'Successful log in',

@@ -10,6 +10,10 @@ router.post(
     profileController.setUser,
     profileController.changeUserProfile,
 );
-router.post('./driver/profile/update');
+router.post(
+    '/driver/profile/update',
+    profileController.setUser,
+    profileController.changeDriverProfile,
+);
 
 module.exports = router;
