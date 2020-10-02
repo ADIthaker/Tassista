@@ -14,7 +14,10 @@ const user = new Schema({
     googleId: String,
     phoneNo: Number,
     picture: String,
-    location: {
+    homeLocation: {
+        type: pointSchema,
+    },
+    workLocation: {
         type: pointSchema,
     },
     fixedLocations: {

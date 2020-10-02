@@ -1,18 +1,40 @@
 const jwt = require('jsonwebtoken');
+const Driver = require('../models/driver');
+const User = require('../models/user');
 
 exports.verifyUser = (req, res) => {
-    jwt.verify(res.locals.token, 'aditya', (err, authorizedData) => {
+    jwt.verify(res.locals.token, 'aditya', async (err, authorizedData) => {
         if (err) {
             // If error send Forbidden (403)
             console.log('ERROR: Could not connect to the protected route', err);
             res.sendStatus(403);
-        } else {
-            // If token is successfully verified, we can send the autorized data
-            res.json({
+        }
+        try {
+            if (authorizedData.role === 'user') {
+                const user = await User.findOne({
+                    _id: authorizedData.id,
+                }).exec();
+                console.log('SUCCESS: Set to user before route');
+                res.locals.authUser = user;
+                console.log(res.locals, 'user');
+                authorizedData = { ...authorizedData, user };
+                return res.json({
+                    message: 'Successful log in',
+                    authorizedData,
+                });
+            }
+            const driver = await Driver.findOne({
+                _id: authorizedData.id,
+            }).exec();
+            console.log('SUCCESS: Set to driver before route');
+            res.locals.authUser = driver;
+            console.log(res.locals, 'user');
+            return res.json({
                 message: 'Successful log in',
                 authorizedData,
             });
-            console.log('SUCCESS: Connected to protected route');
+        } catch (err) {
+            console.log(err);
         }
     });
 };

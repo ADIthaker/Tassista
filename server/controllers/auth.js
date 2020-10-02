@@ -63,7 +63,7 @@ exports.userLogin = async (req, res) => {
         }
         const isMatch = await bcrypt.compare(req.body.password, user.password);
         if (isMatch) {
-            const payload = { user };
+            const payload = { id: user._id, role: user.role };
             // console.log(payload.user, 'test');
             const token = jwt.sign(payload, 'aditya', {
                 expiresIn: 86400 * 7,
@@ -98,7 +98,7 @@ exports.driverLogin = async (req, res) => {
             driver.password,
         );
         if (isMatch) {
-            const payload = { driver };
+            const payload = { id: driver._id, role: driver.role };
             // console.log(payload.user, 'test');
             const token = jwt.sign(payload, 'aditya', {
                 expiresIn: 86400 * 7,
