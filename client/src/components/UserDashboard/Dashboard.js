@@ -41,7 +41,7 @@ const Dashboard = (props) => {
     const context = useContext(userContext);
     const [state, dispatch] = useReducer(reducer, initialState);
     const [isEdit, setEdit] = useState(false);
-    const history = useHistory();
+    // const history = useHistory();
     const setInitialFormState = () => {
         ['phoneNo','username','address'].map(name=>{
             const typeToPass = name + 'Change';
@@ -65,6 +65,7 @@ const Dashboard = (props) => {
         };
         }
         const data = {
+            email:context.user.email,
             address:state.addressValue,
             phoneNo:state.phoneNoValue,
             username:state.usernameValue,
@@ -90,12 +91,15 @@ const Dashboard = (props) => {
             }
         })
         const typeToPass = name + 'Change';
-        dispatch({type: typeToPass ,payload: event.target.value}); 
+        dispatch({type: typeToPass, payload: event.target.value}); 
     }
     console.log(state);;
-    if(context.user === null){
+    if(context.user === null && context.isLoading!== true){
         return (<Redirect to="/" />);
-    } 
+    }
+    else if(context.isLoading){
+        return null;
+    }
     else {
         if(isEdit){
             return (
