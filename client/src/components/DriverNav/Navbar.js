@@ -54,6 +54,13 @@ const Navbar = (props) => {
     context.setAuth(false);
     history.push('/');
     };
+    let filesrc;
+    if(context.user.picture.startsWith('https'))
+    {
+        filesrc=context.user.picture;
+    } else {
+        filesrc = 'http://localhost:4000/'+context.user.picture;
+    }
     const toggleDrawer = (open) => (event) => {
       if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
         return;
@@ -80,7 +87,7 @@ const Navbar = (props) => {
               <ListItemText primary={"Find now"} />
             </ListItem>
             <ListItem button key={"My Profile"} component={NavLink} to="/driver/profile">
-              <ListItemIcon> <Avatar className={classes.profile} /> </ListItemIcon>
+              <ListItemIcon> <Avatar src={filesrc} className={classes.profile} /> </ListItemIcon>
               <ListItemText primary={"My Profile"} />
             </ListItem>
      
@@ -134,7 +141,7 @@ const Navbar = (props) => {
            </Box>
            <Box pl={4} > 
            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          <Avatar src={'http://localhost:4000/'+context.user.picture} className={classes.profile}/>{context.user.username.split(' ')[0]}<ArrowDropDownIcon/>
+          <Avatar src={filesrc} className={classes.profile}/>{context.user.username.split(' ')[0]}<ArrowDropDownIcon/>
           </Button>
               <Menu
                   id="simple-menu"

@@ -46,6 +46,13 @@ const Navbar = (props) => {
     context.setAuth(false);
     history.push('/');
     }
+    let filesrc;
+    if(context.user.picture.startsWith('https'))
+    {
+        filesrc=context.user.picture;
+    } else {
+        filesrc = 'http://localhost:4000/'+context.user.picture;
+    }
     const toggleDrawer = (open) => (event) => {
       if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
         return;
@@ -72,7 +79,7 @@ const Navbar = (props) => {
               <ListItemText primary={"Ride now"} />
             </ListItem>
             <ListItem button key={"My Profile"} component={NavLink} to="/profile">
-              <ListItemIcon> <Avatar className={classes.profile} src={'http://localhost:4000/'+context.user.picture} /> </ListItemIcon>
+              <ListItemIcon> <Avatar className={classes.profile} src={filesrc} /> </ListItemIcon>
               <ListItemText primary={"My Profile"} />
             </ListItem>
      
@@ -125,7 +132,7 @@ const Navbar = (props) => {
            </Box>
            <Box pl={4} > 
            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          <Avatar className={classes.profile}src={'http://localhost:4000/'+context.user.picture}/>{context.user.username.split(" ")[0]} <ArrowDropDownIcon/>
+          <Avatar className={classes.profile}src={filesrc}/>{context.user.username.split(" ")[0]} <ArrowDropDownIcon/>
           </Button>
               <Menu
                   id="simple-menu"

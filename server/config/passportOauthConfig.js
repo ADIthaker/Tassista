@@ -56,6 +56,7 @@ module.exports = (passport) => {
                                 googleId: profile.id,
                                 email: profile.emails[0].value,
                                 username: profile.displayName,
+                                picture: profile._json.picture,
                             });
                             await newDriver.save();
                             done(null, newDriver);

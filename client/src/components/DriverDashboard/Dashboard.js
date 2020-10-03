@@ -49,6 +49,14 @@ const Dashboard = (props) => {
         })
          
     }
+    let filesrc ;
+    if(context.user.picture.startsWith('https'))
+    {
+        filesrc=context.user.picture;
+    } else {
+        filesrc = 'http://localhost:4000/'+context.user.picture;
+    }
+    console.log(filesrc);
     const fileChangeHandler = (event)=>{
         setFile(event.target.files[0]);
     }
@@ -120,7 +128,7 @@ const Dashboard = (props) => {
                             alignItems:"center",
                         }}>
                         <Grid item md={12}>
-                        <Avatar src={'http://localhost:4000/'+context.user.picture} className={classes.profile}/>
+                        <Avatar src={filesrc} className={classes.profile}/>
                         </Grid>
                         <Grid item md={12}>
                         <Typography className={classes.title}>
@@ -178,7 +186,7 @@ const Dashboard = (props) => {
                             alignItems:"center",
                             }}>
                         <Grid item md={12}>
-                        <Avatar src={'http://localhost:4000/'+context.user.picture} className={classes.profile}/>
+                        <Avatar src={filesrc} className={classes.profile}/>
                         </Grid>
                         <Grid item md={12}>
                         <Typography className={classes.title}>
