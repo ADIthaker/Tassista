@@ -72,7 +72,7 @@ const Navbar = (props) => {
               <ListItemText primary={"Ride now"} />
             </ListItem>
             <ListItem button key={"My Profile"} component={NavLink} to="/profile">
-              <ListItemIcon> <Avatar className={classes.profile} /> </ListItemIcon>
+              <ListItemIcon> <Avatar className={classes.profile} src={'http://localhost:4000/'+context.user.picture} /> </ListItemIcon>
               <ListItemText primary={"My Profile"} />
             </ListItem>
      
@@ -125,7 +125,7 @@ const Navbar = (props) => {
            </Box>
            <Box pl={4} > 
            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          <Avatar className={classes.profile}src={context.user.picture}/>{context.user.username.split(" ")[0]} <ArrowDropDownIcon/>
+          <Avatar className={classes.profile}src={'http://localhost:4000/'+context.user.picture}/>{context.user.username.split(" ")[0]} <ArrowDropDownIcon/>
           </Button>
               <Menu
                   id="simple-menu"
