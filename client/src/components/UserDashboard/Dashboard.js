@@ -79,13 +79,7 @@ const Dashboard = (props) => {
         console.log(resp);
         setEdit(false);
     }
-    let filesrc ;
-    if(context.user.picture.startsWith('https'))
-    {
-        filesrc=context.user.picture;
-    } else {
-        filesrc = 'http://localhost:4000/'+context.user.picture;
-    }
+    
     const fieldChangeHandler = (name,event) =>{
         let usernameTest = state.validation.usernameValid;
         let phoneNoTest = state.validation.phoneNoValid;
@@ -108,10 +102,15 @@ const Dashboard = (props) => {
     if(context.user === null && context.isLoading!== true){
         return (<Redirect to="/" />);
     }
-    else if(context.isLoading){
-        return null;
-    }
+    
     else {
+        let filesrc ;
+    if(context.user.picture.startsWith('https'))
+    {
+        filesrc=context.user.picture;
+    } else {
+        filesrc = 'http://localhost:4000/'+context.user.picture;
+    }
         if(isEdit){
             return (
                 <Container maxWidth="md" className={classes.main}>

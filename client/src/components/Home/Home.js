@@ -9,12 +9,14 @@ const Home = (props) => {
     const context = useContext(userContext);
     //const user = context.getUser('token');
     // console.log(context.user,"in home from sessionstorage");
-    if(context.user === null || context.user === undefined  || !context.isAuth ){
+    if(context.user === null && !context.isLoading ){
         return ( 
         <div className={classes.main} my={2} >
             {/* <img src={bgImg} className={classes.img}/> */}
     </div>
     );
+    } else if(context.isLoading){
+        return null;
     } else {
         return(
             <div className={classes.main} my={2} >

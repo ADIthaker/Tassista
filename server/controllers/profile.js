@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
 const User = require('../models/user');
 const Driver = require('../models/driver');
-const storage = require('../utils/fileUpload');
 
 const verifyUser = (req, res, next) => {
     jwt.verify(res.locals.token, 'aditya', (err, authorizedData) => {
@@ -24,36 +22,29 @@ exports.setUser = (req, res, next) => {
 };
 exports.changeUserProfile = async (req, res) => {
     const { username, phoneNo, homeLocation, workLocation, address } = req.body;
+    let objForUpdate = {};
+    if (username) objForUpdate.username = username;
+    if (phoneNo) objForUpdate.phoneNo = phoneNo;
+    if (homeLocation) objForUpdate.homeLocation = homeLocation;
+    if (workLocation) objForUpdate.workLocation = workLocation;
+    if (address) objForUpdate.address = address;
+    if (req.file) objForUpdate.picture = req.file.path;
+    objForUpdate = { $set: objForUpdate };
     const user = res.locals.authUser;
-    console.log(req.file.path, '\nYour img path\n');
-    const imgUrl = req.file.path;
-    const query = await User.findOneAndUpdate(
-        { _id: user._id },
-        {
-            username: username,
-            phoneNo: phoneNo,
-            homeLocation: homeLocation,
-            workLocation: workLocation,
-            address: address,
-            picture: imgUrl,
-        },
-    ).exec();
+    const query = await User.update({ _id: user._id }, objForUpdate).exec();
     res.json(query);
 };
 
 exports.changeDriverProfile = async (req, res) => {
     const { username, phoneNo, type, address } = req.body;
+    let objForUpdate = {};
     const user = res.locals.authUser;
-    const imgUrl = req.file.path;
-    const query = await Driver.findOneAndUpdate(
-        { _id: user._id },
-        {
-            username: username,
-            phoneNo: phoneNo,
-            type: type,
-            address: address,
-            picture: imgUrl,
-        },
-    ).exec();
+    if (username) objForUpdate.username = username;
+    if (phoneNo) objForUpdate.phoneNo = phoneNo;
+    if (type) objForUpdate.type = type;
+    if (address) objForUpdate.address = address;
+    if (req.file) objForUpdate.picture = req.file.path;
+    objForUpdate = { $set: objForUpdate };
+    const query = await Driver.update({ _id: user._id }, objForUpdate).exec();
     res.json(query);
 };

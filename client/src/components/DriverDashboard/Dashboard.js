@@ -49,14 +49,6 @@ const Dashboard = (props) => {
         })
          
     }
-    let filesrc ;
-    if(context.user.picture.startsWith('https'))
-    {
-        filesrc=context.user.picture;
-    } else {
-        filesrc = 'http://localhost:4000/'+context.user.picture;
-    }
-    console.log(filesrc);
     const fileChangeHandler = (event)=>{
         setFile(event.target.files[0]);
     }
@@ -80,12 +72,6 @@ const Dashboard = (props) => {
         formdata.append('phoneNo',state.phoneNoValue);
         formdata.append('username',state.usernameValue);
         formdata.append('file',file);
-        // const data = {
-        //     email:context.user.email,
-        //     address:state.addressValue,
-        //     phoneNo:state.phoneNoValue,
-        //     username:state.usernameValue,
-        // };
         const url = "http://localhost:4000/driver/profile/update";
         const resp = await axios.post(url,formdata,options);
         console.log(resp);
@@ -117,6 +103,13 @@ const Dashboard = (props) => {
         return null;
     } 
     else {
+        let filesrc ;
+    if(context.user.picture.startsWith('https'))
+    {
+        filesrc=context.user.picture;
+    } else {
+        filesrc = 'http://localhost:4000/'+context.user.picture;
+    }
         if(isEdit){
             return (
                 <Container maxWidth="md" className={classes.main}>

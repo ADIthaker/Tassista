@@ -3,17 +3,16 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-
 module.exports = (passport) => {
     passport.use(
         new JWTstrategy(
             {
-                jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme("Bearer"),
+                jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('Bearer'),
                 secretOrKey: 'aditya',
                 algorithms: ['RS256'],
             },
             function (jwtPayload, done) {
-                console.log('HI'); 
+                console.log('HI');
                 User.findOne({ email: jwtPayload.user.email }, function (
                     err,
                     user,

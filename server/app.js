@@ -13,7 +13,6 @@ const isAuth = require('./middlewares/isAuth');
 const protectedRoutes = require('./routes/protected');
 const fileUpload = require('./utils/fileUpload');
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));

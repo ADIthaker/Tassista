@@ -1,5 +1,5 @@
 exports.isTokenAuth = (req, res, next) => {
-    const header = req.headers['authorization'];
+    const header = req.headers.authorization;
     // console.log(header);
     if (typeof header !== 'undefined') {
         const bearer = header.split(' ');
@@ -11,7 +11,7 @@ exports.isTokenAuth = (req, res, next) => {
         res.locals.isTokenAuth = false;
     }
     next();
-}
+};
 exports.isOAuth = (req, res, next) => {
     if (req.user) {
         res.locals.isOauth = true;
@@ -22,7 +22,7 @@ exports.isOAuth = (req, res, next) => {
         return res.json({
             success: false,
             message: 'User is not authorized',
-        })
+        });
     }
     next();
 };

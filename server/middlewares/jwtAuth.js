@@ -42,7 +42,7 @@ exports.verifyUser = (req, res) => {
 };
 
 exports.checkToken = (req, res, next) => {
-    const header = req.headers['authorization'];
+    const header = req.headers.authorization;
 
     if (typeof header !== 'undefined') {
         const bearer = header.split(' ');
