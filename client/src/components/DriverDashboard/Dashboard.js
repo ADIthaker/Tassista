@@ -40,12 +40,17 @@ const Dashboard = (props) => {
     const context = useContext(userContext);
     const [state, dispatch] = useReducer(reducer, initialState);
     const [isEdit, setEdit] = useState(false);
+    const [file, setFile] = useState(null);
+    const formdata = new FormData();
     const setInitialFormState = () => {
         ['phoneNo','username','address'].map(name=>{
             const typeToPass = name + 'Change';
             dispatch({type: typeToPass ,payload: context.user[name]});
         })
          
+    }
+    const fileChangeHandler = (event)=>{
+        setFile(event.target.files[0]);
     }
     const updateFormSubmitHandler = async () => {
         const token = localStorage.getItem('token');
@@ -62,14 +67,19 @@ const Dashboard = (props) => {
             }
         };
         }
-        const data = {
-            email:context.user.email,
-            address:state.addressValue,
-            phoneNo:state.phoneNoValue,
-            username:state.usernameValue,
-        };
+        formdata.append('email',context.user.email);
+        formdata.append('address',state.addressValue);
+        formdata.append('phoneNo',state.phoneNoValue);
+        formdata.append('username',state.usernameValue);
+        formdata.append('file',file);
+        // const data = {
+        //     email:context.user.email,
+        //     address:state.addressValue,
+        //     phoneNo:state.phoneNoValue,
+        //     username:state.usernameValue,
+        // };
         const url = "http://localhost:4000/driver/profile/update";
-        const resp = await axios.post(url,data,options);
+        const resp = await axios.post(url,formdata,options);
         console.log(resp);
         setEdit(false);
     }
@@ -110,7 +120,7 @@ const Dashboard = (props) => {
                             alignItems:"center",
                         }}>
                         <Grid item md={12}>
-                        <Avatar src={context.user.picture} className={classes.profile}/>
+                        <Avatar src={'http://localhost:4000/'+context.user.picture} className={classes.profile}/>
                         </Grid>
                         <Grid item md={12}>
                         <Typography className={classes.title}>
@@ -140,6 +150,17 @@ const Dashboard = (props) => {
                             onChange ={(e)=>fieldChangeHandler('username',e)}
                             error = {state.validation.usernameValid===false ?  true:false }
                             helperText = {state.validation.usernameValid===false ? "Invalid Name" : ''} /><br />
+                            <Button
+                                variant="contained"
+                                component="label"
+                                >
+                                Upload File
+                                <input
+                                    type="file"
+                                    style={{ display: "none" }}
+                                    onChange = {(e)=>fileChangeHandler(e)}
+                                />
+                            </Button>
                             <Button type="submit">Finish Edit</Button>
                         </form>
                     </Grid>
@@ -157,7 +178,7 @@ const Dashboard = (props) => {
                             alignItems:"center",
                             }}>
                         <Grid item md={12}>
-                        <Avatar src={context.user.picture} className={classes.profile}/>
+                        <Avatar src={'http://localhost:4000/'+context.user.picture} className={classes.profile}/>
                         </Grid>
                         <Grid item md={12}>
                         <Typography className={classes.title}>

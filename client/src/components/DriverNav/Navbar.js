@@ -134,7 +134,7 @@ const Navbar = (props) => {
            </Box>
            <Box pl={4} > 
            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          <Avatar src={context.user.picture} className={classes.profile}/>{context.user.username.split(' ')[0]}<ArrowDropDownIcon/>
+          <Avatar src={'http://localhost:4000/'+context.user.picture} className={classes.profile}/>{context.user.username.split(' ')[0]}<ArrowDropDownIcon/>
           </Button>
               <Menu
                   id="simple-menu"

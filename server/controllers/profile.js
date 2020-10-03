@@ -44,16 +44,7 @@ exports.changeUserProfile = async (req, res) => {
 exports.changeDriverProfile = async (req, res) => {
     const { username, phoneNo, type, address } = req.body;
     const user = res.locals.authUser;
-    const upload = multer({ storage: storage }).single('file');
-    upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(500).json(err);
-        }
-        if (err) {
-            return res.status(500).json(err);
-        }
-        return res.status(200).send(req.file);
-    });
+    const imgUrl = req.file.path;
     const query = await Driver.findOneAndUpdate(
         { _id: user._id },
         {
@@ -61,6 +52,7 @@ exports.changeDriverProfile = async (req, res) => {
             phoneNo: phoneNo,
             type: type,
             address: address,
+            picture: imgUrl,
         },
     ).exec();
     res.json(query);
