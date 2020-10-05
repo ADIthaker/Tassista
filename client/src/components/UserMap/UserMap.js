@@ -1,4 +1,4 @@
-import React,{useCallback, useRef, useState} from 'react';
+import React,{useCallback, useContext, useRef, useState} from 'react';
 import {
     GoogleMap,
     useLoadScript,
@@ -15,10 +15,12 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import {userContext} from '../../contexts/userContext';
 
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import Search from './Search/Search';
+import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -38,6 +40,7 @@ const options = {
 const UserMap = () =>{
     const classes = useStyles();
     const history = useHistory();
+    const context = useContext(userContext);
     const {isLoaded, loadError} = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
@@ -101,6 +104,8 @@ const UserMap = () =>{
         try{
             let resp = await axios.post(url,data,options);
             console.log(resp);
+            localStorage.setItem('ride',JSON.stringify({isRide:true,...resp.data}));
+            context.setRide({isRide:true,...resp.data});
             history.push('/');
         } catch (err){
             console.log(err);

@@ -21,9 +21,13 @@ const Home = (props) => {
     } else if(context.user.role==='user') {
         return(
             <div className={classes.main} my={2} >
-                    {/* <img src={bgImg} className={classes.img}/> */}
                     <p>{context.user.email}</p>
-                    <Button component={NavLink} to="/request/make">Go to Map</Button>
+                    {
+                        context.ride.isRide ? 
+                        <Button component={NavLink} to="/request/make">Go to Map</Button>:
+                        <Button component={NavLink} to="/request/edit">Go to Ride</Button> 
+                    }
+                    
             </div>
         );
     } else if(context.user.role==='driver') {

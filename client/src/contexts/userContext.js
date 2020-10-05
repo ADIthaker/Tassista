@@ -7,6 +7,7 @@ export const userContext = createContext(null);
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuth, setAuth] = useState(false);
+  const [ride, setRide] = useState(null);
   const [type, setType] = useState("user");
   const [isLoading, setLoading] = useState(false);
   const token = localStorage.getItem('token');
@@ -60,6 +61,7 @@ const UserProvider = ({ children }) => {
           isAuth: isAuth,
           setAuth: setAuth,
           isLoading: isLoading,
+          ride: setRide,
       }}>
           {children}
       </userContext.Provider>
