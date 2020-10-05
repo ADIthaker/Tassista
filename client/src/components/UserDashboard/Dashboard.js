@@ -4,7 +4,7 @@ import {userContext} from '../../contexts/userContext';
 import  useStyles from "./DashboardStyles";
 import { useHistory, Redirect } from 'react-router-dom';
 import axios from 'axios';
-
+import Particles from 'react-particles-js';
 
 const usernameRegex = /\w \w/;
 const phoneNoRegex = /^[0-9]{10}$/;
@@ -114,7 +114,50 @@ const Dashboard = (props) => {
         if(isEdit){
             return (
                 <Container maxWidth="md" className={classes.main}>
-                <div className={classes.overlay}></div>
+                <Particles className={classes.overlay}
+                params={{
+                    "particles": {
+                        "number": {
+                            "value": 160,
+                            "density": {
+                                "enable": true,
+                                "value_area": 1500
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "opacity": 0.2
+                        },
+                        "move": {
+                            "direction": "right",
+                            "speed": 0.31
+                        },
+                        "size": {
+                            "value": 1.5
+                        },
+                        "opacity": {
+                            "anim": {
+                                "enable": true,
+                                "speed": 1.5,
+                                "opacity_min": 0.05
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "events": {
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                        },
+                        "modes": {
+                            "push": {
+                                "particles_nb": 1
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                }}/>
                 <Grid container>
                    <Grid  item md={4}>
                     <Grid  container style={{position:"relative",
@@ -172,7 +215,50 @@ const Dashboard = (props) => {
         }
         return(
             <Container maxWidth="md" className={classes.main}>
-                <div className={classes.overlay}></div>
+                <Particles className={classes.overlay}
+                params={{
+                    "particles": {
+                        "number": {
+                            "value": 150,
+                            "density": {
+                                "enable": true,
+                                "value_area": 1500
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "opacity": 0.16
+                        },
+                        "move": {
+                            "direction": "right",
+                            "speed": 0.11
+                        },
+                        "size": {
+                            "value": 1.5
+                        },
+                        "opacity": {
+                            "anim": {
+                                "enable": true,
+                                "speed": 1.5,
+                                "opacity_min": 0.05
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "events": {
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                        },
+                        "modes": {
+                            "push": {
+                                "particles_nb": 1
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                }}/>
                <Grid container>
                    <Grid  item md={4}>
                     <Grid  container style={{position:"relative",
