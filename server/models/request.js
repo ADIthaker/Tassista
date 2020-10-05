@@ -22,6 +22,8 @@ const request = new Schema(
             index: '2dsphere',
             required: true, // can set to empty if no stops
         },
+        pickupAddress: String,
+        dropAddress: String,
         paymentMethod: {
             type: String,
             required: true,

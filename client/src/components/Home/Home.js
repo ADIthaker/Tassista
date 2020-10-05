@@ -18,12 +18,21 @@ const Home = (props) => {
     );
     } else if(context.isLoading){
         return null;
-    } else {
+    } else if(context.user.role==='user') {
         return(
             <div className={classes.main} my={2} >
                     {/* <img src={bgImg} className={classes.img}/> */}
                     <p>{context.user.email}</p>
                     <Button component={NavLink} to="/request/make">Go to Map</Button>
+            </div>
+        );
+    } else if(context.user.role==='driver') {
+        return(
+            <div className={classes.main} my={2} >
+                    {/* <img src={bgImg} className={classes.img}/> */}
+                    <p>{context.user.email}</p>
+                    hello driver
+                    <Button component={NavLink} to="/requests/all" >Check All Requests</Button>
             </div>
         );
     }

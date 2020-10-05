@@ -3,7 +3,13 @@ const Driver = require('../models/driver');
 const Request = require('../models/request');
 
 exports.makeRequest = async (req, res) => {
-    let { stops, dropLocation, pickupLocation } = req.body;
+    let {
+        stops,
+        dropLocation,
+        pickupLocation,
+        pickupAddress,
+        dropAddress,
+    } = req.body;
     console.log(dropLocation, pickupLocation);
     dropLocation = [
         parseFloat(dropLocation.split(',')[0]),
@@ -23,6 +29,8 @@ exports.makeRequest = async (req, res) => {
             },
         },
         stops: [],
+        pickupAddress: pickupAddress,
+        dropAddress: dropAddress,
         pickupLocation: {
             location: {
                 type: 'Point',
