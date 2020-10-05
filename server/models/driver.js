@@ -16,6 +16,7 @@ const driver = new Schema({
     picture: String,
     addressCoords: {
         type: pointSchema,
+        index: '2dsphere',
     },
     type: {
         type: String,

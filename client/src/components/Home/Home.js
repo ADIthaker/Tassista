@@ -3,6 +3,7 @@ import {userContext} from '../../contexts/userContext';
 import useStyles from './HomeStyles';
 import {AppBar, Button, Toolbar,Typography, Box, Grid} from '@material-ui/core';
 import bgImg from '../../assets/images/624_gold.jpg';
+import {NavLink, Link, useHistory} from 'react-router-dom';
 
 const Home = (props) => {
     const classes = useStyles();
@@ -22,6 +23,7 @@ const Home = (props) => {
             <div className={classes.main} my={2} >
                     {/* <img src={bgImg} className={classes.img}/> */}
                     <p>{context.user.email}</p>
+                    <Button component={NavLink} to="/request/make">Go to Map</Button>
             </div>
         );
     }

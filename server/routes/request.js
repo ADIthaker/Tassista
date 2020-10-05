@@ -1,11 +1,11 @@
 const express = require('express');
 const authController = require('../controllers/auth');
 const profileController = require('../controllers/profile');
+const requestController = require('../controllers/request');
 
 const router = express.Router();
 
-router.get('/userinfo', authController.getUser);
-router.post('/user/profile/update', profileController.changeUserProfile);
-router.post('/driver/profile/update', profileController.changeDriverProfile);
+router.post('/request/new', requestController.makeRequest);
+router.post('/request/accept', requestController.acceptReq);
 
 module.exports = router;

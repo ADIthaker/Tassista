@@ -11,6 +11,7 @@ const multer = require('multer');
 const authRoutes = require('./routes/auth');
 const isAuth = require('./middlewares/isAuth');
 const protectedRoutes = require('./routes/protected');
+const requestRoutes = require('./routes/request');
 const fileUpload = require('./utils/fileUpload');
 
 app.use(express.json());
@@ -31,13 +32,13 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-// require('./config/passportConfig')(passport);
+
 require('./config/passportOauthConfig')(passport);
-// require('./config/passportOauthDriver')(passport);
-// require('./config/passportJwt')(passport);
 
 app.use(authRoutes);
-app.use(isAuth.isTokenAuth, isAuth.isOAuth, protectedRoutes);
+app.use(isAuth.isTokenAuth, isAuth.isOAuth, isAuth.setUser);
+app.use(protectedRoutes);
+app.use(requestRoutes);
 
 mongoose
     .connect(process.env.MONGODB_URI, {

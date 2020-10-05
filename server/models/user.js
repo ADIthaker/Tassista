@@ -16,9 +16,11 @@ const user = new Schema({
     picture: String,
     homeLocation: {
         type: pointSchema,
+        index: '2dsphere',
     },
     workLocation: {
         type: pointSchema,
+        index: '2dsphere',
     },
     fixedLocations: {
         type: [pointSchema],

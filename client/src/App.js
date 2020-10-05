@@ -11,6 +11,7 @@ import Dashboard from './components/UserDashboard/Dashboard';
 import DriverDashboard from './components/DriverDashboard/Dashboard';
 import UserNav from './components/UserNav/Navbar';
 import {userContext} from './contexts/userContext';
+import UserMap from './components/UserMap/UserMap';
 import { createMuiTheme, ThemeProvider, responsiveFontSizes} from '@material-ui/core/styles';
 
 let theme1 = createMuiTheme({
@@ -69,6 +70,9 @@ const App = () =>  {
           </Route>
           <Route path="/login">
               <Login/>
+          </Route>
+          <Route path="/request/make">
+            <UserMap />
           </Route>
           <Route path="/register">
             <SignUp />
