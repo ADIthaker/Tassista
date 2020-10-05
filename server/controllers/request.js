@@ -9,6 +9,7 @@ exports.makeRequest = async (req, res) => {
         pickupLocation,
         pickupAddress,
         dropAddress,
+        timeOfArrival,
     } = req.body;
     console.log(dropLocation, pickupLocation);
     dropLocation = [
@@ -28,6 +29,7 @@ exports.makeRequest = async (req, res) => {
                 coordinates: dropLocation,
             },
         },
+        timeOfArrival: timeOfArrival,
         stops: [],
         pickupAddress: pickupAddress,
         dropAddress: dropAddress,
@@ -51,4 +53,9 @@ exports.acceptReq = async (req, res) => {
     );
     await request.populate('userId').populate('driverId').execPopulate();
     res.json(request);
+};
+
+exports.allReq = async (req, res) => {
+    const reqsArr = await Request.find({}).exec();
+    return res.json(reqsArr);
 };

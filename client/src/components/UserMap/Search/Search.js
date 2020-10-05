@@ -75,7 +75,7 @@ const Search = ({panTo, setPickup, setDrop}) => {
                                     value={value}
                                     onChange={(e)=>setValue(e.target.value)}
                                     />
-                                <IconButton onClick={()=>handlePickupSelect()}>
+                                <IconButton>
                                     <SearchIcon />
                                 </IconButton>
                             </Paper>
@@ -95,7 +95,7 @@ const Search = ({panTo, setPickup, setDrop}) => {
                                     value={value}
                                     onChange={(e)=>setValue(e.target.value)}
                                     />
-                                <IconButton onClick={()=>handleDropSelect()}>
+                                <IconButton>
                                     <SearchIcon />
                                 </IconButton>
                             </Paper>

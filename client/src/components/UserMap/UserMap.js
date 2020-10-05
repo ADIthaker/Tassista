@@ -42,7 +42,7 @@ const UserMap = () =>{
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     });
-    const [selectedDate, setSelectedDate] = useState(Date.now());
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [pickup, setPickup] = useState({});
     const [drop, setDrop] = useState({});
     const [markers, setMarkers] = useState([]);
@@ -66,7 +66,8 @@ const UserMap = () =>{
     if (!isLoaded) return "loading maps";
     const handleDateChange = (date) => {
         setSelectedDate(date);
-      };
+    };
+    console.log(selectedDate);
     const sendRequest = async () => {
         const token = localStorage.getItem('token');
         let options = {
@@ -86,6 +87,7 @@ const UserMap = () =>{
         let pickData = `${pickup.lng},${pickup.lat}`;
         let dropAddress = drop.address;
         let pickupAddress = pickup.address;
+        let timeOfArrival = selectedDate;
         let stops = null; //later
         const data = {
             dropLocation: dropData,
@@ -93,6 +95,7 @@ const UserMap = () =>{
             pickupAddress: pickupAddress,
             dropAddress: dropAddress,
             stops: stops,
+            timeOfArrival: timeOfArrival,
         };
         const url = 'http://localhost:4000/request/new';
         try{
