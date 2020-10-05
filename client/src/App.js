@@ -39,6 +39,11 @@ let theme1 = createMuiTheme({
         fontFamily: 'Rubik, sans-serif',
         fontWeight: 400,
         fontSize:'14px',
+      },
+      reqForm: {
+        fontFamily: 'Rubik, sans-serif',
+        fontWeight: 500,
+        fontSize: 17,
       }
 
     },

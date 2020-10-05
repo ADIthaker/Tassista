@@ -105,20 +105,29 @@ const UserMap = () =>{
     }
     return (
         <Grid container>
-            <Grid item md={4}>
-            <Box style={{margin:"0 1.2rem"}}>
-                <Grid container className={classes.form}>
+            <Grid item md={3}>
+            <Box style={{margin:"0 1rem"}}>
+                <Grid container className={classes.form} spacing={4}>
                     <Grid item md={12} >
                         <Typography variant="h6" style={{textAlign: 'center'}}>Book a Ride🚖</Typography>
                         <hr />
                     </Grid>
-                    <Grid item md={12}>
-                        <p>Pickup Location: {pickup.address? pickup.address: null}</p>
+                    <Grid item md={12} >
+                        <Typography className={classes.title}>
+                            Pickup Location: {pickup.address? pickup.address: null}
+                        </Typography>
                     </Grid>
                     <Grid item md={12}>
-                        <p>Drop Location: {drop.address? drop.address: null}</p>
+                        <Typography className={classes.title}>
+                            Drop Location: {drop.address? drop.address: null}
+                        </Typography>
                     </Grid>
-                    <Grid item md={12}  >
+                    <Grid item md={12}>
+                        <Typography className={classes.title}  >
+                            Stops: 
+                        </Typography>
+                    </Grid>
+                    <Grid item md={12}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                             margin="normal"
@@ -143,14 +152,11 @@ const UserMap = () =>{
                             />
                         </MuiPickersUtilsProvider>
                     </Grid>
-                    <Grid item md={12}>
-                        <Button >Clear input</Button>
-                    </Grid>
                 </Grid>
-                <Button onClick={sendRequest}>Let's Ride</Button>
+                <Button onClick={sendRequest} className={classes.rideButton}>Let's Ride</Button>
                 </Box>
             </Grid>
-            <Grid item md={8}>
+            <Grid item md={9}>
                 <div>
                 <Search panTo={panTo} setPickup={setPickup} setDrop={setDrop} />
                 <GoogleMap 

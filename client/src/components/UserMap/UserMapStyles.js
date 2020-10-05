@@ -2,7 +2,10 @@ import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme=>({
     form: {
-        marginTop:'1rem',
+      marginTop:'1rem',
+    },
+    title:{
+      ...theme.typography.reqForm,
     },
     root: {
         position: 'absolute',
@@ -33,6 +36,11 @@ const useStyles = makeStyles(theme=>({
       iconButton: {
         padding: 10,
       },
+      rideButton: {
+        marginTop: '2rem',
+        left:"25%",
+        width:'50%',
+      }
 }));
 
 export default useStyles;
