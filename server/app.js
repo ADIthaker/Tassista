@@ -11,10 +11,12 @@ const multer = require('multer');
 const authRoutes = require('./routes/auth');
 const isAuth = require('./middlewares/isAuth');
 const isRide = require('./middlewares/isRide');
+const dbConnection = require('./config/db');
 const protectedRoutes = require('./routes/protected');
 const requestRoutes = require('./routes/request');
 const fileUpload = require('./utils/fileUpload');
 
+dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
@@ -41,15 +43,6 @@ app.use(isAuth.isTokenAuth, isAuth.isOAuth, isAuth.setUser, isRide.isRiding);
 app.use(protectedRoutes);
 app.use(requestRoutes);
 
-mongoose
-    .connect(process.env.MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-    })
-    .then(() => {
-        app.listen(process.env.PORT, () => {
-            console.log(`\nworking on port ${process.env.PORT}`);
-        });
-    })
-    .catch((err) => console.log(err));
+app.listen(process.env.PORT, () => {
+    console.log(`\nworking on port ${process.env.PORT}`);
+});
