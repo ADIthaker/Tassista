@@ -1,8 +1,11 @@
 import React,{useEffect, useState, useContext, useRef, useCallback} from 'react';
 import {Card ,CardContent ,Button ,Typography, CardActions} from '@material-ui/core';
 import useStyles from './RequestsCardStyles';
+import {useHistory} from 'react-router-dom';
+
 const RequestCard = (props) => {
     const classes = useStyles();
+    const history = useHistory();
     return(
     <Card className={classes.card}>
       <CardContent>
@@ -26,7 +29,12 @@ const RequestCard = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="medium">Accept</Button>
+        <Button 
+        size="medium" 
+        onClick={()=>{history.push(`/request/accept/${props.id}`)}}
+        >
+          Accept
+        </Button>
       </CardActions>
     </Card>
     )

@@ -11,14 +11,14 @@ exports.makeRequest = async (req, res) => {
         dropAddress,
         timeOfArrival,
     } = req.body;
-    console.log(dropLocation, pickupLocation);
+    console.log(pickupLocation.split(',')[0], pickupLocation.split(',')[0]);
     dropLocation = [
-        parseFloat(dropLocation.split(',')[0]),
-        parseFloat(dropLocation.split(',')[1]),
+        parseFloat(dropLocation.split(',')[0].trim()),
+        parseFloat(dropLocation.split(',')[1].trim()),
     ];
     pickupLocation = [
-        parseFloat(pickupLocation.split(',')[0]),
-        parseFloat(pickupLocation.split(',')[1]),
+        parseFloat(pickupLocation.split(',')[0].trim()),
+        parseFloat(pickupLocation.split(',')[1].trim()),
     ];
     stops = stops || [];
     const request = new Request({
@@ -44,7 +44,7 @@ exports.makeRequest = async (req, res) => {
         await request.save();
         res.json(request);
     } catch (err) {
-        console.log(err);
+        console.log(err,"from make req");
     }
 };
 exports.editRequest = async (req, res) => {
@@ -98,13 +98,18 @@ exports.editRequest = async (req, res) => {
 };
 
 exports.acceptReq = async (req, res) => {
-    const { reqId } = req.body;
+    const { reqId } = req.params;
     const request = await Request.findOneAndUpdate(
         { _id: reqId },
-        { driverId: res.locals.authUser._id, isAccepted: true },
+        {
+            driverId: res.locals.authUser._id,
+            isAccepted: true,
+            reqStatus: 'accepted',
+        },
         { new: true },
     );
     await request.populate('userId').populate('driverId').execPopulate();
+    console.log(request);
     res.json(request);
 };
 

@@ -87,6 +87,7 @@ const formSubmitHandler = (event) => {
         localStorage.setItem('token',res.token);
         if(res.success){
             context.setAppAuth(res.user);
+            context.setRide(res.rideInfo);
             history.push('/profile');
         }
     })

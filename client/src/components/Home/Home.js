@@ -23,9 +23,10 @@ const Home = (props) => {
             <div className={classes.main} my={2} >
                     <p>{context.user.email}</p>
                     {
-                        context.ride.isRide ? 
-                        <Button component={NavLink} to="/request/make">Go to Map</Button>:
-                        <Button component={NavLink} to="/request/edit">Go to Ride</Button> 
+                        context.ride ? 
+                        <Button component={NavLink} to="/request/edit">Go to Ride</Button> :
+                        <Button component={NavLink} to="/request/make">Go to Map</Button>
+                        
                     }
                     
             </div>
@@ -36,6 +37,12 @@ const Home = (props) => {
                     {/* <img src={bgImg} className={classes.img}/> */}
                     <p>{context.user.email}</p>
                     hello driver
+                    {
+                        context.ride ? 
+                        <Button component={NavLink} to="/requests/all" >Check All Requests</Button> :
+                        <Button component={NavLink} to="/request/make">Go to Map</Button>
+                        
+                    }
                     <Button component={NavLink} to="/requests/all" >Check All Requests</Button>
             </div>
         );

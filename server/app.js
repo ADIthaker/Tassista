@@ -10,6 +10,7 @@ const cookieSession = require('cookie-session');
 const multer = require('multer');
 const authRoutes = require('./routes/auth');
 const isAuth = require('./middlewares/isAuth');
+const isRide = require('./middlewares/isRide');
 const protectedRoutes = require('./routes/protected');
 const requestRoutes = require('./routes/request');
 const fileUpload = require('./utils/fileUpload');
@@ -36,7 +37,7 @@ app.use(passport.session());
 require('./config/passportOauthConfig')(passport);
 
 app.use(authRoutes);
-app.use(isAuth.isTokenAuth, isAuth.isOAuth, isAuth.setUser);
+app.use(isAuth.isTokenAuth, isAuth.isOAuth, isAuth.setUser, isRide.isRiding);
 app.use(protectedRoutes);
 app.use(requestRoutes);
 

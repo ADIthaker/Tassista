@@ -49,6 +49,7 @@ const Requests = () => {
     return( <Container>
                 {reqs.map(req => <ReqCard 
                                     key={req._id}
+                                    id={req._id}
                                     timeStamp={req.timeOfArrival.slice(11,19)}
                                     dateStamp={req.timeOfArrival.slice(0,10)}
                                     dropLocation={req.dropAddress.split(',').slice(0,3)}

@@ -17,7 +17,11 @@ exports.verifyUser = (req, res) => {
                 console.log('SUCCESS: Set to user before route');
                 res.locals.authUser = user;
                 console.log(res.locals, 'user');
-                authorizedData = { ...authorizedData, user };
+                authorizedData = {
+                    ...authorizedData,
+                    user,
+                    rideInfo: res.locals.isRide,
+                };
                 return res.json({
                     message: 'Successful log in',
                     authorizedData,
@@ -29,7 +33,11 @@ exports.verifyUser = (req, res) => {
             console.log('SUCCESS: Set to driver before route');
             const user = driver; // for the ease of checking in res.locals and in frontend
             res.locals.authUser = user;
-            authorizedData = { ...authorizedData, user };
+            authorizedData = {
+                ...authorizedData,
+                user,
+                isRide: res.locals.isRide,
+            };
             console.log(res.locals, 'user');
             return res.json({
                 message: 'Successful log in',

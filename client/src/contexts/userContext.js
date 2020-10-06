@@ -11,7 +11,7 @@ const UserProvider = ({ children }) => {
   const [type, setType] = useState("user");
   const [isLoading, setLoading] = useState(false);
   const token = localStorage.getItem('token');
-  //console.log(token);
+  console.log(ride, "ride");
   let options = {
     credentials:"include",
     withCredentials:true,
@@ -41,8 +41,10 @@ const UserProvider = ({ children }) => {
         } else {
           setUser(user.authorizedData.driver);
         }
+        setRide(user.authorizedData.rideInfo);
       } else{
-        setUser(user);
+        setUser(user.user);
+        setRide(user.rideInfo);
       } 
       setAuth(true);
       setLoading(false);
@@ -61,7 +63,8 @@ const UserProvider = ({ children }) => {
           isAuth: isAuth,
           setAuth: setAuth,
           isLoading: isLoading,
-          ride: setRide,
+          setRide: setRide,
+          ride: ride
       }}>
           {children}
       </userContext.Provider>
@@ -70,9 +73,6 @@ const UserProvider = ({ children }) => {
 
 
 export default UserProvider;
-
-
-
 
 
 //   const getProfile = async () => {

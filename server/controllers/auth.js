@@ -1,9 +1,9 @@
 /* eslint-disable no-else-return */
 //= ============Imports_START=============//
 const bcrypt = require('bcryptjs');
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Request = require('../models/request');
 const Driver = require('../models/driver');
 const jwtAuth = require('../middlewares/jwtAuth');
 // const issueJWT = require('../utils/issueJWT');
@@ -68,10 +68,20 @@ exports.userLogin = async (req, res) => {
             const token = jwt.sign(payload, 'aditya', {
                 expiresIn: 86400 * 7,
             });
+            const rideInfo = await Request.findOne({
+                $or: [
+                    { userId: user._id, reqStatus: 'accepted' },
+                    { userId: user._id, reqStatus: 'remaining' },
+                ],
+            }).exec();
+            if(rideInfo!==null){
+                await rideInfo.populate('userId').populate('driverId').execPopulate();
+            }
             return res.status(200).json({
                 success: true,
                 token: token,
                 user: user,
+                rideInfo: rideInfo,
                 type: 'user',
             });
         }
@@ -103,10 +113,18 @@ exports.driverLogin = async (req, res) => {
             const token = jwt.sign(payload, 'aditya', {
                 expiresIn: 86400 * 7,
             });
+            const rideInfo = await Request.findOne({
+                driverId: driver._id,
+                reqStatus: 'accepted',
+            }).exec();
+            if(rideInfo!==null){
+                await rideInfo.populate('userId').populate('driverId').execPopulate();
+            }
             return res.status(200).json({
                 success: true,
                 token: token,
                 user: driver,
+                rideInfo: rideInfo,
                 type: 'driver',
             });
         }
@@ -127,7 +145,8 @@ exports.userLogout = (req, res) => {
 exports.getUser = (req, res) => {
     if (res.locals.isOauth) {
         console.log(req.user);
-        return res.json(req.user);
+        const user = { user:  req.user , rideInfo: res.locals.isRide };
+        return res.json(user);
     } else if (res.locals.isTokenAuth) {
         jwtAuth.verifyUser(req, res);
     }

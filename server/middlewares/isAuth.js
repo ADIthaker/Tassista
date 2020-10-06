@@ -35,7 +35,10 @@ const verifyUser = (req, res, next) => {
             console.log('ERROR: Could not connect to the protected route', err);
             return null;
         }
-        res.locals.authUser = { _id: authorizedData.id };
+        res.locals.authUser = {
+            _id: authorizedData.id,
+            role: authorizedData.role,
+        };
     });
 };
 
@@ -46,5 +49,6 @@ exports.setUser = (req, res, next) => {
     } else if (res.locals.isTokenAuth) {
         verifyUser(req, res);
     }
+    console.log(res.locals, 'after set user');
     next();
 };

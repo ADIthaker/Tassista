@@ -13,6 +13,7 @@ import UserNav from './components/UserNav/Navbar';
 import {userContext} from './contexts/userContext';
 import UserMap from './components/UserMap/UserMap';
 import Requests from './components/Requests/Requests';
+import DriverMap from './components/DriverMap/DriverMap';
 import { createMuiTheme, ThemeProvider, responsiveFontSizes} from '@material-ui/core/styles';
 
 let theme1 = createMuiTheme({
@@ -79,6 +80,9 @@ const App = () =>  {
           </Route>
           <Route path="/request/make">
             <UserMap />
+          </Route>
+          <Route path="/request/accept/:reqId">
+            <DriverMap />
           </Route>
           <Route path="/requests/all">
             <Requests />

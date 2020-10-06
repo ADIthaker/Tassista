@@ -9,17 +9,14 @@ const request = new Schema(
         driverId: { type: Schema.Types.ObjectId, ref: 'Driver' },
         pickupLocation: {
             type: pointSchema,
-            index: '2dsphere',
             required: true,
         },
         dropLocation: {
             type: pointSchema,
-            index: '2dsphere',
             required: true,
         },
         stops: {
             type: [pointSchema],
-            index: '2dsphere',
             required: true, // can set to empty if no stops
         },
         pickupAddress: String,

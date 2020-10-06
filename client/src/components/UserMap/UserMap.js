@@ -88,6 +88,7 @@ const UserMap = () =>{
         };
         let dropData = `${drop.lng},${drop.lat}`;
         let pickData = `${pickup.lng},${pickup.lat}`;
+        console.log(pickData,dropData);
         let dropAddress = drop.address;
         let pickupAddress = pickup.address;
         let timeOfArrival = selectedDate;
@@ -104,8 +105,7 @@ const UserMap = () =>{
         try{
             let resp = await axios.post(url,data,options);
             console.log(resp);
-            localStorage.setItem('ride',JSON.stringify({isRide:true,...resp.data}));
-            context.setRide({isRide:true,...resp.data});
+            context.setRide(resp.data);
             history.push('/');
         } catch (err){
             console.log(err);
