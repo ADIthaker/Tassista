@@ -18,7 +18,7 @@ import {
 import {userContext} from '../../contexts/userContext';
 
 import axios from 'axios';
-import {useHistory, Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import Search from './Search/Search';
 import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 
@@ -37,7 +37,7 @@ const options = {
     zoomControl: true,
 }
 
-const UserMap = () =>{
+const EditUserMap = () =>{
     const classes = useStyles();
     const history = useHistory();
     const context = useContext(userContext);
@@ -45,9 +45,11 @@ const UserMap = () =>{
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     });
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [pickup, setPickup] = useState({});
-    const [drop, setDrop] = useState({});
+    const [selectedDate, setSelectedDate] = useState(context.ride.timeOfArrival);
+    const [pickup, setPickup] = useState({lng:context.ride.pickupLocation.location.coordinates[0],
+        lat:context.ride.pickupLocation.location.coordinates[1],address:context.ride.pickupAddress});
+    const [drop, setDrop] = useState({lng:context.ride.dropLocation.location.coordinates[0],
+        lat:context.ride.dropLocation.location.coordinates[1],address:context.ride.dropAddress});
     const [markers, setMarkers] = useState([]);
     const mapRef = useRef();
     const mapLoad = useCallback((map)=>{mapRef.current=map},[]);
@@ -71,7 +73,7 @@ const UserMap = () =>{
         setSelectedDate(date);
     };
     console.log(selectedDate);
-    const sendRequest = async () => {
+    const editRequest = async () => {
         const token = localStorage.getItem('token');
         let options = {
             credentials:"include",
@@ -86,14 +88,16 @@ const UserMap = () =>{
             }
         };
         };
+        console.log(drop.address);
         let dropData = `${drop.lng},${drop.lat}`;
         let pickData = `${pickup.lng},${pickup.lat}`;
-        console.log(pickData,dropData);
+        //console.log(pickData,dropData);
         let dropAddress = drop.address;
         let pickupAddress = pickup.address;
         let timeOfArrival = selectedDate;
         let stops = null; //later
         const data = {
+            reqId: context.ride._id,
             dropLocation: dropData,
             pickupLocation: pickData,
             pickupAddress: pickupAddress,
@@ -101,7 +105,8 @@ const UserMap = () =>{
             stops: stops,
             timeOfArrival: timeOfArrival,
         };
-        const url = 'http://localhost:4000/request/new';
+        console.log(data);
+        const url = 'http://localhost:4000/request/edit';
         try{
             let resp = await axios.post(url,data,options);
             console.log(resp);
@@ -117,17 +122,17 @@ const UserMap = () =>{
             <Box style={{margin:"0 1rem"}}>
                 <Grid container className={classes.form} spacing={4}>
                     <Grid item md={12} >
-                        <Typography variant="h6" style={{textAlign: 'center'}}>Book a Ride🚖</Typography>
+                        <Typography variant="h6" style={{textAlign: 'center'}}>Edit your Ride🚖</Typography>
                         <hr />
                     </Grid>
                     <Grid item md={12} >
                         <Typography className={classes.title}>
-                            Pickup Location: {pickup.address? pickup.address: null}
+                            Pickup Location: {pickup.address? pickup.address: context.ride.pickupAddress}
                         </Typography>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}>
-                            Drop Location: {drop.address? drop.address: null}
+                            Drop Location: {drop.address? drop.address: context.ride.dropAddress}
                         </Typography>
                     </Grid>
                     <Grid item md={12}>
@@ -161,9 +166,7 @@ const UserMap = () =>{
                         </MuiPickersUtilsProvider>
                     </Grid>
                 </Grid>
-                
-                <Button onClick={sendRequest} className={classes.rideButton}>Let's Ride</Button>
-                
+                <Button onClick={editRequest} className={classes.rideButton}>Let's Go</Button>
                 </Box>
             </Grid>
             <Grid item md={9}>
@@ -190,4 +193,4 @@ const UserMap = () =>{
    );
 }
 
-export default UserMap;
+export default EditUserMap;

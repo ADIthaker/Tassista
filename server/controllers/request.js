@@ -44,7 +44,7 @@ exports.makeRequest = async (req, res) => {
         await request.save();
         res.json(request);
     } catch (err) {
-        console.log(err,"from make req");
+        console.log(err, 'from make req');
     }
 };
 exports.editRequest = async (req, res) => {
@@ -86,9 +86,10 @@ exports.editRequest = async (req, res) => {
     }
     if (paymentMethod) objForUpdate.paymentMethod = paymentMethod;
     if (pickupAddress) objForUpdate.pickupAddress = pickupAddress;
-    if (dropAddress) objForUpdate.stops = dropAddress;
+    if (dropAddress) objForUpdate.dropAddress = dropAddress;
     if (timeOfArrival) objForUpdate.timeOfArrival = timeOfArrival;
-    objForUpdate = { $set: objForUpdate };
+    objForUpdate.reqStatus = 'remaining';
+    objForUpdate = { $set: objForUpdate, $unset: { driverId: '' } };
     const request = await Request.findOneAndUpdate(
         { _id: reqId },
         objForUpdate,

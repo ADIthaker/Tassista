@@ -12,6 +12,7 @@ import DriverDashboard from './components/DriverDashboard/Dashboard';
 import UserNav from './components/UserNav/Navbar';
 import {userContext} from './contexts/userContext';
 import UserMap from './components/UserMap/UserMap';
+import EditUserMap from './components/UserMap/EditUserMap';
 import Requests from './components/Requests/Requests';
 import DriverMap from './components/DriverMap/DriverMap';
 import { createMuiTheme, ThemeProvider, responsiveFontSizes} from '@material-ui/core/styles';
@@ -62,41 +63,47 @@ const App = () =>  {
   }else if(context.user && context.user.role==='driver'){
     navbar = <DriverNav />;
   }
+  const isDriver = context.user && context.user.role==='driver';
+  const isUser = context.user && context.user.role === 'user'; 
   return(
     <ThemeProvider theme={theme1}>
       {navbar}
         <Switch>
-        <Route path="/driver/login">
-              <DriverLogin/>
+          <Route path="/driver/login">
+          <DriverLogin/>
           </Route>
           <Route path="/driver/register">
               <DriverSignUp/>
           </Route>
-          <Route path="/driver/profile">
-            <DriverDashboard />
+          <Route path="/register">
+            <SignUp />
           </Route>
           <Route path="/login">
               <Login/>
           </Route>
+          <Route path="/driver/profile">
+          {isDriver ? <DriverDashboard /> : <Home />} 
+          </Route> 
           <Route path="/request/make">
-            <UserMap />
+          {isUser ? <UserMap /> : <Home />}
+          </Route>
+          <Route path="/request/edit">
+          {isUser ? <EditUserMap /> : <Home />}
           </Route>
           <Route path="/request/accept/:reqId">
-            <DriverMap />
+          {isDriver ? <DriverMap /> : <Home />}
           </Route>
           <Route path="/requests/all">
-            <Requests />
-          </Route>
-          <Route path="/register">
-            <SignUp />
+          {isDriver ? <Requests /> : <Home />}
           </Route>
           <Route path="/profile">
-            <Dashboard />
+          {isUser ? <Dashboard /> : <Home />}
           </Route>
           <Route path="/">
             <Home />
           </Route>
         </Switch>
+
       </ThemeProvider>
   );
    

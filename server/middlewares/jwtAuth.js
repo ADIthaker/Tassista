@@ -36,7 +36,7 @@ exports.verifyUser = (req, res) => {
             authorizedData = {
                 ...authorizedData,
                 user,
-                isRide: res.locals.isRide,
+                rideInfo: res.locals.isRide,
             };
             console.log(res.locals, 'user');
             return res.json({

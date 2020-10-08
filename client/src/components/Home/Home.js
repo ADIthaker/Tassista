@@ -8,6 +8,7 @@ import {NavLink, Link, useHistory} from 'react-router-dom';
 const Home = (props) => {
     const classes = useStyles();
     const context = useContext(userContext);
+    console.log(context.ride)
     //const user = context.getUser('token');
     // console.log(context.user,"in home from sessionstorage");
     if(context.user === null && !context.isLoading ){
@@ -24,7 +25,7 @@ const Home = (props) => {
                     <p>{context.user.email}</p>
                     {
                         context.ride ? 
-                        <Button component={NavLink} to="/request/edit">Go to Ride</Button> :
+                        <Button component={NavLink} to="/request/edit">Edit Ride</Button> :
                         <Button component={NavLink} to="/request/make">Go to Map</Button>
                         
                     }
@@ -32,18 +33,20 @@ const Home = (props) => {
             </div>
         );
     } else if(context.user.role==='driver') {
+        let reqLink;
+        if(context.ride!==null)
+            reqLink = `/request/accept/${context.ride._id}`;
         return(
             <div className={classes.main} my={2} >
                     {/* <img src={bgImg} className={classes.img}/> */}
                     <p>{context.user.email}</p>
                     hello driver
                     {
-                        context.ride ? 
+                        !context.ride ? 
                         <Button component={NavLink} to="/requests/all" >Check All Requests</Button> :
-                        <Button component={NavLink} to="/request/make">Go to Map</Button>
+                        <Button component={NavLink} to={reqLink} >Go to Map</Button>
                         
                     }
-                    <Button component={NavLink} to="/requests/all" >Check All Requests</Button>
             </div>
         );
     }

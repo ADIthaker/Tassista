@@ -66,7 +66,7 @@ const UserMap = () =>{
                 lng:resp.data.pickupLocation.location.coordinates[0]}
             ]);
             //localStorage.setItem('ride',JSON.stringify({isRide:true,...resp.data}));
-            context.ride({isRide:true,...resp.data});
+            context.setRide({isRide:true,...resp.data});
         } catch (err){
             console.log(err);
         }
@@ -99,11 +99,23 @@ const UserMap = () =>{
                         <hr />
                     </Grid>
                     <Grid item md={12} >
-                    
+                    <Typography className={classes.title}>
+                        User Name: {context.ride.userId.username}
+                    </Typography>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}>
-                            
+                           Drop Address: {context.ride.dropAddress} 
+                        </Typography>
+                    </Grid>
+                    <Grid item md={12}>
+                        <Typography className={classes.title}>
+                           Pickup Address: {context.ride.pickupAddress} 
+                        </Typography>
+                    </Grid>
+                    <Grid item md={12}>
+                        <Typography className={classes.title}>
+                           Phone No: {context.ride.userId.phoneNo} 
                         </Typography>
                     </Grid>
                     <Grid item md={12}>
