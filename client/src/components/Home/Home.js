@@ -11,7 +11,7 @@ const Home = (props) => {
     console.log(context.ride)
     //const user = context.getUser('token');
     // console.log(context.user,"in home from sessionstorage");
-    if(context.user === null && !context.isLoading ){
+    if((context.user === null||context.user===undefined) && !context.isLoading ){
         return ( 
         <div className={classes.main} my={2} >
             {/* <img src={bgImg} className={classes.img}/> */}
@@ -19,7 +19,7 @@ const Home = (props) => {
     );
     } else if(context.isLoading){
         return null;
-    } else if(context.user.role==='user') {
+    } else if(context.user && context.user.role==='user') {
         return(
             <div className={classes.main} my={2} >
                     <p>{context.user.email}</p>
@@ -32,7 +32,7 @@ const Home = (props) => {
                     
             </div>
         );
-    } else if(context.user.role==='driver') {
+    } else if(context.user && context.user.role==='driver') {
         let reqLink;
         if(context.ride!==null)
             reqLink = `/request/accept/${context.ride._id}`;
