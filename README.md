@@ -49,6 +49,7 @@
 **Profile Page for both driver and user :**
 
  ![Profile](./proj_screenshots/profile.jpg)
+ ![ResponsiveNav](./proj_screenshots/navbar_responsive.jpg)
 
 ### Requesting For Rides
 
