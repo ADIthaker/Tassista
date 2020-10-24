@@ -97,7 +97,6 @@ const formSubmitHandler = (event) => {
 
     return(
         <Box className={classes.main}>
-            <h1>User</h1>
             <Grid container >
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.formGrid}>

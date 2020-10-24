@@ -2,7 +2,7 @@ const Request = require('../models/request');
 
 exports.isRiding = async (req, res, next) => {
     const { authUser } = res.locals;
-    if (authUser.role === 'user') {
+    if (authUser && authUser.role === 'user') {
         try {
             const request = await Request.findOne({
                 userId: authUser._id,

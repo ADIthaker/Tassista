@@ -108,7 +108,7 @@ const Navbar = (props) => {
           <Box ml={1}>
          <Typography  className={classes.logo} > 
            <NavLink to='/' className = {classes.homelink} >
-              TassistaDriver
+              Tassista
            </NavLink>
           </Typography>
           </Box>
@@ -135,7 +135,7 @@ const Navbar = (props) => {
            <Box ml={5}>
           <Typography  className={classes.logo} > 
             <NavLink to='/' className = {classes.homelink} >
-               TassistaDriver
+               Tassista
             </NavLink>
            </Typography>
            </Box>

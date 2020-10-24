@@ -21,13 +21,16 @@ let theme1 = createMuiTheme({
   typography: {
       fontFamily: 'Rubik, sans-serif',
       h5: {
-          fontSize:30,
+          fontSize:32,
           fontFamily: 'Playfair Display, serif',
           fontWeight: 500,
           color:'black',
       },
       h2: {
         fontSize: 52,
+      },
+      h3:{
+        fontSize: 35,
       },
       button: {
         color: 'black',
@@ -47,9 +50,8 @@ let theme1 = createMuiTheme({
         fontFamily: 'Rubik, sans-serif',
         fontWeight: 500,
         fontSize: 17,
-      }
-
-    },
+      },
+}
 });
 theme1 = responsiveFontSizes(theme1)
 const App = () =>  {

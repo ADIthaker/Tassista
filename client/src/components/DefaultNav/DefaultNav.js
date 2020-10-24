@@ -84,7 +84,7 @@ const Navbar = (props) => {
         <Box ml={1}>
        <Typography  className={classes.logo} > 
          <NavLink to='/' className = {classes.homelink} >
-            TassistaDef
+            Tassista
          </NavLink>
         </Typography>
         </Box>
@@ -109,10 +109,10 @@ const Navbar = (props) => {
     return (
            <AppBar position = "relative" className = {classes.appbar}>
             <Toolbar className={classes.toolbar} >
-              <Box ml={2} >
+              <Box ml={7} >
               <Typography  className={classes.logo} > 
                 <NavLink to='/' className = {classes.homelink} >
-                  TassistaDef
+                  Tassista
                 </NavLink>
               </Typography>
               </Box>

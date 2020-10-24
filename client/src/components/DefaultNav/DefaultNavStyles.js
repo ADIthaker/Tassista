@@ -7,7 +7,6 @@ const useStyles = makeStyles(theme=>({
     },
     appbar :{
         backgroundColor : 'white',
-        boxShadow: 'none',
         borderBottom: '1px solid black',
         zIndex:'100',
     },

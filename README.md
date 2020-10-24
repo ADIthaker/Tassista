@@ -29,6 +29,9 @@
 ---------------------------------------------------------------
 
 ## Preview
+### Home Screen / Landing Page
+
+![Home](./proj_screenshots/home_screen.jpg)
 
 ### Authentication
 
