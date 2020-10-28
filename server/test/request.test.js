@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs');
 const db = require('../config/db');
 const User = require('../models/user');
 const Driver = require('../models/driver');
+const Request = require('../models/request');
 const server = require('../app');
+const driver = require('../models/driver');
 
 const should = chai.should();
 const { expect } = chai;
@@ -13,13 +15,14 @@ let userJwt;
 let userpwd;
 let driverpwd;
 let driverJwt;
+let reqId;
 const makepwd = async () => {
     userpwd = await bcrypt.hash('soul', 10);
     driverpwd = userpwd;
 };
 makepwd();
 
-describe('Protected', () => {
+describe('RIDES', () => {
     before((done) => {
         db.db()
             .then(() => {
@@ -45,6 +48,7 @@ describe('Protected', () => {
     after(async () => {
         await User.remove({});
         await Driver.deleteMany({});
+        await Request.deleteMany({});
         await db.close();
     });
     it('LOGIN USER', (done) => {
@@ -61,20 +65,45 @@ describe('Protected', () => {
                 done();
             });
     });
-    it('Update a profile USER', (done) => {
-        const updatedUser = {
-            username: 'hello bro',
-            phoneNo: '1234576890',
-            address: 'Home',
+    it('MAKE A REQUEST',(done) => {
+        const req  = {
+            dropLocation: '20,20',
+            pickupLocation: '10,10',
+            dropAddress:'Home',
+            pickupAddress:'Office',
+            timeOfArrival: '2020-10-28T05:21:03.667Z',
         };
-        console.log(userJwt);
         chai.request(server)
-            .post('/user/profile/update')
+            .post('/request/new')
             .set('Authorization', `Bearer ${userJwt}`)
-            .send(updatedUser)
+            .send(req)
             .end((err, res) => {
                 console.log(res.body);
-                expect(res.statusCode).to.equal(200);
+                reqId = res.body._id;
+                expect(res.body.dropAddress).to.equal('Home');
+                expect(res.body.dropLocation.location.coordinates).to.deep.equal([20,20]);
+                expect(res.body.timeOfArrival).to.equal('2020-10-28T05:21:03.667Z');
+                done();
+            });
+    });
+    it('EDIT A REQUEST',(done)=>{
+        const req  = {
+            reqId: reqId,
+            dropLocation: '30,20',
+            pickupLocation: '10,10',
+            dropAddress:'House',
+            pickupAddress:'Office',
+            timeOfArrival: '2020-10-28T05:21:03.667Z',
+        };
+        chai.request(server)
+            .post('/request/edit')
+            .set('Authorization', `Bearer ${userJwt}`)
+            .send(req)
+            .end((err, res) => {
+                console.log(res.body);
+                expect(res.body.dropAddress).to.equal('House');
+                expect(res.body.dropLocation.location.coordinates).to.deep.equal([30,20]);
+                expect(res.body.timeOfArrival).to.equal('2020-10-28T05:21:03.667Z');
                 done();
             });
     });
@@ -92,19 +121,19 @@ describe('Protected', () => {
                 done();
             });
     });
-    it('Update a profile DRIVER', (done) => {
-        const updatedDriver = {
-            username: 'heyyya a',
-            phoneNo: '1234567190',
-            address: 'House',
-        };
+    it('ACCEPT REQUEST BY DRIVER', (done) => {
         chai.request(server)
-            .post('/driver/profile/update')
+            .get(`/request/accept/${reqId}`)
             .set('Authorization', `Bearer ${driverJwt}`)
-            .send(updatedDriver)
             .end((err, res) => {
-                console.log(res.body);
-                expect(res.statusCode).to.equal(200);
+                done();
+            });
+    });
+    it('SHOW REQUEST BY DRIVER', (done) => {
+        chai.request(server)
+            .get(`/request`)
+            .set('Authorization', `Bearer ${driverJwt}`)
+            .end((err, res) => {
                 done();
             });
     });

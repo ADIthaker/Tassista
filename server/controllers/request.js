@@ -110,7 +110,7 @@ exports.acceptReq = async (req, res) => {
         { new: true },
     );
     await request.populate('userId').populate('driverId').execPopulate();
-    console.log(request);
+    // console.log(request);
     res.json(request);
 };
 
