@@ -16,7 +16,7 @@ const protectedRoutes = require('./routes/protected');
 const requestRoutes = require('./routes/request');
 const fileUpload = require('./utils/fileUpload');
 
-dbConnection();
+dbConnection.db();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
@@ -46,3 +46,4 @@ app.use(requestRoutes);
 app.listen(process.env.PORT, () => {
     console.log(`\nworking on port ${process.env.PORT}`);
 });
+module.exports = app;

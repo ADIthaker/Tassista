@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const pointSchema = require('./location');
-
+const Request = require('./request.js');
 const { Schema } = mongoose;
 
 const user = new Schema({
@@ -33,3 +33,8 @@ const user = new Schema({
 });
 
 module.exports = mongoose.model('User', user);
+
+user.pre('remove',async (next)=>{
+    await Request.deleteMany({userId: user._id}).exec();
+    next();
+})
