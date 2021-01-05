@@ -2,6 +2,9 @@ import React,{useCallback, useContext, useRef, useState, useEffect} from 'react'
 import {
     GoogleMap,
     useLoadScript,
+    DirectionsService,
+    DirectionsRenderer,
+    DistanceMatrixService,
     Marker,
 } from "@react-google-maps/api";
 import {Button, Typography, Box, Grid, } from '@material-ui/core';
@@ -10,6 +13,7 @@ import mapStyles from './MapStyles';
 import {userContext} from '../../contexts/userContext';
 import axios from 'axios';
 import {useHistory, useParams} from 'react-router-dom';
+
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -30,6 +34,11 @@ const UserMap = () =>{
     const classes = useStyles();
     const history = useHistory();
     const context = useContext(userContext);
+    const [pickup, setPickup] = useState({});
+    const [drop, setDrop] = useState({});
+    const [dirResponse, setDirResponse] = useState(null);
+    const [distResponse, setDistResponse] = useState(null);
+    const [distInfo,setDistInfo] = useState({});
     const {reqId} = useParams();
     const {isLoaded, loadError} = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -39,6 +48,31 @@ const UserMap = () =>{
     const mapRef = useRef();
     const mountedRef = useRef(true);
     const mapLoad = useCallback((map)=>{mapRef.current=map},[]);
+    console.log("rendered again");
+    const directionsCallback =  (response) => {
+
+        if (response !== null && dirResponse===null) {
+          if (response.status === 'OK') {
+            setDirResponse(response);
+          } else {
+            console.log('directions response: ', response);
+          }
+        }
+      }
+      const distanceCallback =  (response) => {
+        if (response !== null && distResponse === null) {
+          if (response.rows[0].elements[0].status === 'OK') {
+            console.log('changong dist data');
+            setDistResponse(response);
+            setDistInfo({
+              duration: response.rows[0].elements[0].duration.text,
+              distance: response.rows[0].elements[0].distance.text,
+            });
+          } else {
+            console.log('distance response: ', response);
+          }
+        }
+      }
     const sendRequest = useCallback(async () => {
         const token = localStorage.getItem('token');
         let options = {
@@ -58,20 +92,28 @@ const UserMap = () =>{
         try{
             let resp = await axios.get(url,options);
             if (!mountedRef.current) return null;
-            console.log(resp.data);
+            // console.log(resp.data);
             setMarkers([
                 {lat:resp.data.dropLocation.location.coordinates[1],
                 lng:resp.data.dropLocation.location.coordinates[0]},
                 {lat:resp.data.pickupLocation.location.coordinates[1],
                 lng:resp.data.pickupLocation.location.coordinates[0]}
             ]);
+            setPickup({
+                lat:resp.data.pickupLocation.location.coordinates[1],
+                lng:resp.data.pickupLocation.location.coordinates[0]
+            });
+            setDrop({
+                lat:resp.data.dropLocation.location.coordinates[1],
+                lng:resp.data.dropLocation.location.coordinates[0]
+            });
             //localStorage.setItem('ride',JSON.stringify({isRide:true,...resp.data}));
             context.setRide({isRide:true,...resp.data});
-        } catch (err){
+        } catch (err) {
             console.log(err);
         }
     });
-    console.log(markers);
+    //console.log(markers);
     useEffect(()=>{
         sendRequest();
         return () => { 
@@ -100,28 +142,53 @@ const UserMap = () =>{
                     </Grid>
                     <Grid item md={12} >
                     <Typography className={classes.title}>
-                        User Name: {context.ride.userId.username}
+                        User Name 
                     </Typography>
+                    <div className={classes.infoText}>
+                    {context.ride && context.ride.userId.username}
+                    </div>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}>
-                           Drop Address: {context.ride.dropAddress} 
+                           Drop Address  
                         </Typography>
+                        <div className={classes.infoText}>
+                        {context.ride && context.ride.dropAddress}
+                        </div>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}>
-                           Pickup Address: {context.ride.pickupAddress} 
+                           Pickup Address  
                         </Typography>
+                        <div className={classes.infoText}>
+                        {context.ride && context.ride.pickupAddress}
+                        </div>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}>
-                           Phone No: {context.ride.userId.phoneNo} 
+                          Time       {/* Phone No: {context.ride && context.ride.userId.phoneNo}  */}
                         </Typography>
+                        <div className={classes.infoText}>
+                          {distInfo.duration}
+                        </div>
+                    </Grid>
+                    <Grid item md={12}>
+                        <Typography className={classes.title}>
+                          Distance         
+                        </Typography>
+                        <div className={classes.infoText}>
+                          {distInfo.distance}
+                        </div>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}  >
-                            Stops: 
+                  Stops 
                         </Typography>
+                < div className = {
+                  classes.infoText
+                } >
+                  None
+                </div>
                     </Grid>
                     <Grid item md={12}>
                         
@@ -136,10 +203,52 @@ const UserMap = () =>{
                     zoom={13} 
                     center={center}
                     options={options}
-                    onLoad={mapLoad}>
+                    onLoad={mapLoad}>          
+              (pickup !== { } && drop !== { }) && (
+                <DirectionsService
+                  // required
+                  options={{ 
+                    destination: drop,
+                    origin: pickup,
+                    travelMode: 'DRIVING'
+                  }}
+                  onLoad={directionsService => {
+                    console.log('DirectionsService onLoad directionsService: ', directionsService)
+                  }}
+                  // required
+                  callback={directionsCallback}
+                />
+                )
+                {dirResponse !== null && (
+                <DirectionsRenderer
+                  // required
+                  options={{ 
+                    directions: dirResponse
+                  }}
+                />
+              )
+            }
+            (distResponse === null) && ( <
+              DistanceMatrixService callback = {
+                distanceCallback
+              }
+              options = {
+                {
+                  origins: [pickup],
+                  destinations: [drop],
+                  travelMode: 'DRIVING',
+                }
+              }
+              onLoad = {
+                directionsService => {
+                  console.log('DirectionsService onLoad directionsService: ', directionsService)
+                }
+              }
+              />
+            )  
                     {/* onClick={onMapClick} */}
                         {markers.map((marker) => {
-                            console.log(marker);
+                            //console.log(marker);
                             return(<Marker
                                 key={`${marker.lat}-${marker.lng}`}
                                 position={{ lat: marker.lat, lng: marker.lng }}

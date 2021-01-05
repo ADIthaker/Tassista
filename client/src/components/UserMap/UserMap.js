@@ -4,6 +4,8 @@ import {
     useLoadScript,
     Marker,
     InfoWindow,
+    DirectionsService,
+    DirectionsRenderer
 } from "@react-google-maps/api";
 import {Button, Typography, Box, Grid, IconButton, Paper, TextField} from '@material-ui/core';
 import { formatRelative } from "date-fns";
@@ -49,6 +51,8 @@ const UserMap = () =>{
     const [pickup, setPickup] = useState({});
     const [drop, setDrop] = useState({});
     const [markers, setMarkers] = useState([]);
+    const [dirResponse, setResponse] = useState(null);
+    const [distResponse, setDistResponse] = useState(null);
     const mapRef = useRef();
     const mapLoad = useCallback((map)=>{mapRef.current=map},[]);
     const panTo = useCallback(({ lat, lng }) => {
@@ -71,6 +75,28 @@ const UserMap = () =>{
         setSelectedDate(date);
     };
     console.log(selectedDate);
+    const directionsCallback =  (response) => {
+        console.log(response)
+    
+        if (response !== null && dirResponse===null) {
+          if (response.status === 'OK') {
+            setResponse(response);
+          } else {
+            console.log('response: ', response);
+          }
+        }
+      }
+      const distanceCallback =  (distResponse) => {
+        console.log(distResponse);
+    
+        if (distResponse !== null) {
+          if (distResponse.status === 'OK') {
+            setDistResponse(distResponse);
+          } else {
+            console.log('response: ', distResponse);
+          }
+        }
+      }
     const sendRequest = async () => {
         const token = localStorage.getItem('token');
         let options = {
@@ -122,13 +148,19 @@ const UserMap = () =>{
                     </Grid>
                     <Grid item md={12} >
                         <Typography className={classes.title}>
-                            Pickup Location: {pickup.address? pickup.address: null}
+                            Pickup Location:
                         </Typography>
+                        <div className={classes.infoText}>
+                            {pickup.address? pickup.address: null}
+                        </div>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}>
-                            Drop Location: {drop.address? drop.address: null}
+                            Drop Location: 
                         </Typography>
+                        <div className={classes.infoText}>
+                            {drop.address? drop.address: null}
+                        </div>
                     </Grid>
                     <Grid item md={12}>
                         <Typography className={classes.title}  >
@@ -175,6 +207,39 @@ const UserMap = () =>{
                     center={center}
                     options={options}
                     onLoad={mapLoad}>
+                    (pickup !== {} && drop !== {}) && (
+                <DirectionsService
+                  // required
+                  options={{ 
+                    destination: drop,
+                    origin: pickup,
+                    travelMode: 'DRIVING'
+                  }}
+                  onLoad={directionsService => {
+                    console.log('DirectionsService onLoad directionsService: ', directionsService)
+                  }}
+                  // required
+                  callback={directionsCallback}
+                />
+                )
+                {
+              dirResponse !== null && (
+                <DirectionsRenderer
+                  // required
+                  options={{ 
+                    directions: dirResponse
+                  }}
+                  // optional
+                  onLoad={directionsRenderer => {
+                    console.log('DirectionsRenderer onLoad directionsRenderer: ', directionsRenderer)
+                  }}
+                  // optional
+                  onUnmount={directionsRenderer => {
+                    console.log('DirectionsRenderer onUnmount directionsRenderer: ', directionsRenderer)
+                  }}
+                />
+              )
+            }
                     {/* onClick={onMapClick} */}
                         {markers.map((marker) => (
           <Marker

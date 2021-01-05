@@ -5,7 +5,6 @@ const useStyles = makeStyles(theme=>({
         ...theme.mixins.toolbar,
        margin: '10px auto',
        padding:"0",
-       border: '1px solid black',
     },
     overlay: {
         backgroundColor:"black",

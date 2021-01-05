@@ -68,7 +68,7 @@
 #### Driver side
 ##### The driver can look at all the pending requests from the users in a given radius and can choose to accept any ONE request. The accepted request is then showed to the driver with the user info and the pickup and drop locations are marked on the map
 
-![AcceptReq](./proj_screenshots/driver_accept.jpg)
+![AcceptReq](./proj_screenshots/driver_directions.jpg)
 
 -----------------------------------------------------------------
 

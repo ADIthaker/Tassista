@@ -105,7 +105,7 @@ const Dashboard = (props) => {
     
     else {
         let filesrc ;
-    if(context.user.picture.startsWith('https'))
+    if(context.user.picture &&context.user.picture.startsWith('https'))
     {
         filesrc=context.user.picture;
     } else {
@@ -264,6 +264,7 @@ const Dashboard = (props) => {
                     <Grid  container style={{position:"relative",
                             top:'-100px',
                             alignItems:"center",
+                            border:'1px solid black'
                             }}>
                         <Grid item md={12}>
                         <Avatar src={filesrc} className={classes.profile}/>

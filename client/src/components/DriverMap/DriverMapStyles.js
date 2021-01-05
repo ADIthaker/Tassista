@@ -7,6 +7,11 @@ const useStyles = makeStyles(theme=>({
     title:{
       ...theme.typography.reqForm,
     },
+    infoText:{
+      color:'#5d5f61',
+      fontSize: '1rem',
+      fontWeight:'500',
+    },
     root: {
         position: 'absolute',
         top: '80px',

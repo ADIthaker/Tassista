@@ -55,7 +55,7 @@ const Navbar = (props) => {
     history.push('/');
     };
     let filesrc;
-    if(context.user.picture.startsWith('https'))
+    if(context.user.picture && context.user.picture.startsWith('https'))
     {
         filesrc=context.user.picture;
     } else {

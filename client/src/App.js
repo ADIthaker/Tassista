@@ -32,6 +32,9 @@ let theme1 = createMuiTheme({
       h3:{
         fontSize: 35,
       },
+      h6:{
+        fontSize: 24
+      },
       button: {
         color: 'black',
       },
@@ -49,7 +52,7 @@ let theme1 = createMuiTheme({
       reqForm: {
         fontFamily: 'Rubik, sans-serif',
         fontWeight: 500,
-        fontSize: 17,
+        fontSize: 19,
       },
 }
 });
