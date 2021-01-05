@@ -1,8 +1,9 @@
 import React,{useReducer,} from 'react';
-import {Grid, TextField, Box, Button, Avatar, FormHelperText} from '@material-ui/core';
+import {Grid, TextField, Box, Button, Avatar, FormHelperText, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import Glogo from '../../google-hangouts.svg';
 import useStyles from './SignUpStyles';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -14,7 +15,7 @@ const initialState = {
     emailValue:'',
     usernameValue:'', 
     passwordValue:'',
-    phoneNo:'', 
+    phoneNoValue:'', 
     validation:{
         emailValid:true,
         passwordValid:true,
@@ -31,15 +32,16 @@ const reducer = (state, action)=>{
             return {... state, usernameValue : action.payload };
         case 'passwordChange':
             return {... state, passwordValue : action.payload };
+        case 'phoneNoChange':
+            return {...state, phoneNoValue: action.payload};
         case 'validation':
             return {... state, validation : action.settings};
-        case 'phoneNoChange':
-            return {...state, phoneNoValue: action.payload}
+        
     }
     
 }
 
-const SignUp = () => {
+const SignUp = (props) => {
     
     const [state, dispatch] = useReducer(reducer, initialState);
     const classes = useStyles();
@@ -77,7 +79,7 @@ const SignUp = () => {
             email:state.emailValue,
             password:state.passwordValue,
             username:state.usernameValue,
-            phoneno:state.phoneNo,
+            phoneNo:state.phoneNoValue,
         })
         .then(r=>console.log(r,'submit'));
 
@@ -92,9 +94,9 @@ const SignUp = () => {
                 <Grid item sm={3} md={4}  />
                 <Grid item sm={6} md={4}  className={classes.form}>
                     <Grid container direction="column" spacing={3}>
-                        <Grid item ><h1>Sign Up</h1></Grid>
+                        <Grid item ><Typography className={classes.formTitle} >Sign up</Typography></Grid>
                         <Grid item  style={{justifyContent: 'center',padding:'auto'}}>
-                            <a href="http://localhost:4000/google">
+                            <a href="http://localhost:4000/google"  style={{textDecoration:'none'}}>
                             <Button className={classes.gButton} >
                                 <Avatar src={Glogo} 
                                 width="24px" height="24px" 
@@ -106,14 +108,14 @@ const SignUp = () => {
                             <Box width={1} className = {classes.line} display="flex">or</Box> 
                         </Grid>
                         <Grid item className={classes.inputFields}>
-                            <h3>Sign Up with E-Mail</h3>
+                            <Typography className={classes.emailText}>Sign up with Email</Typography>
                             <Box width={1}>
                                 <form autoComplete="off" noValidate onSubmit={formSubmitHandler}>
                                     <TextField 
                                         variant = "outlined"
                                         label="Full Name"
                                         name = "username"
-                                        fullWidth
+                                        fullWidth                                        
                                         onChange = {(e)=>fieldChangeHandler('username',e)}
                                         className = {classes.root}
                                         error = {state.validation.usernameValid===false ?  true:false }
@@ -151,6 +153,9 @@ const SignUp = () => {
                                         error = {state.validation.phoneNoValid===false ? true:false}
                                         helperText = {state.validation.phoneNoValid===false ? "Invalid Mobile Number" : ''}
                                         />
+                                        <Typography className={classes.formMsg}>
+                                        Already a user?<Link to="/login" style={{textDecoration:"none",color:"black"}}> Click here</Link>
+                                    </Typography>
                                     <Button className={classes.submitButton} width={1} type="submit">Submit</Button>
                                 </form>
                             </Box>
