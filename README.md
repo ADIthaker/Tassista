@@ -87,7 +87,9 @@
 
 ## To run this project in your environment
 Run the following commands in the project directory:
-
+----------------------------------------------------------------------
+## Note
+This is one of my early projects and is very buggy😛.
 ```
 cd client
 npm install
